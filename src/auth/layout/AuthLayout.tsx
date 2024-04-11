@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 export const AuthLayout = () => {
+
     return (
         <>
             <Grid
@@ -17,10 +18,9 @@ export const AuthLayout = () => {
             >
                 <Grid
                     item
-                    className='box-shadow'
                     xs={ 3 }
                     sx={{
-                        width: { md: 450 },
+                        
                         backgroundColor: 'secondary.main',
                         padding: 3,
                         borderRadius: 2
