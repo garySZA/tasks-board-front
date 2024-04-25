@@ -1,17 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { AuthInitialState as initialState } from '../../helpers/initialStates';
 
 export const authSlice = createSlice({
     name: 'auth',
-    initialState: {
-        counter: 10
-    },
+    initialState,
     reducers: {
-        increment: (state, /* action */ ) => {
-            state.counter += 1;
+        checkingCredentials: ( state ) => {
+            state.status = 'checking';
+        }, 
+
+        login: ( state ) => {
+            state.status = 'authenticated';
         },
+
+        logout: ( state ) => {
+            state.status = 'not-authenticated';
+        }
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { increment } = authSlice.actions;
+export const { checkingCredentials, login, logout} = authSlice.actions;

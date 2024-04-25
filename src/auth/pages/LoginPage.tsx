@@ -1,25 +1,35 @@
-import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Button, CardMedia, Divider, Grid, Link, TextField, Typography } from "@mui/material";
 import { Login } from "@mui/icons-material";
+import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import { TextFieldPassword } from "../components";
 
 import login_img from '../../assets/login_img.jpg';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { LoginTypes } from '../../types';
+import { loginDefaultValues, sleep } from '../../helpers';
+import { checkingCredentials, login } from '../../store/auth';
 import { RootState } from '../../store';
-import { changeTheme } from '../../store/theme';
+import { toast } from 'react-toastify';
+
 
 export const LoginPage = () => {
-    const { isActiveDarkMode } = useAppSelector(( state: RootState ) => state.theme );
+    const { status } = useAppSelector(( state: RootState ) => state.auth );
     const dispatch = useAppDispatch();
-    
-    const handleOnSubmit = ( event: React.FormEvent<HTMLFormElement> ) => {
-        event.preventDefault();
+    const form = useForm<LoginTypes>({
+        defaultValues: loginDefaultValues
+    });
 
-        console.log('submiteo');
-        console.log(isActiveDarkMode);
-        dispatch( changeTheme( !isActiveDarkMode ) )
+    const onSubmit: SubmitHandler<LoginTypes> = async ( data ) => {
+        dispatch( checkingCredentials() );
+
+        console.log( data );
+
+        await sleep( 1 );
+
+        dispatch( login() );
+        toast.success('exitoso')
     }
 
     return (
@@ -40,71 +50,76 @@ export const LoginPage = () => {
                     Login
                 </Typography>
                 <Divider variant='middle' />
-                <form onSubmit={ handleOnSubmit }>
-                    <Grid
-                        container
-                    >
-                        <Grid
-                            item
-                            xs={ 12 }
-                            sx={{
-                                mt:4
-                            }}
-                        >
-                            <TextField 
-                                label='Email'
-                                variant='standard'
-                                type='email'
-                                placeholder="tucorreo@google.com"
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            xs={ 12 }
-                            sx={{
-                                mt:3
-                            }}
-                        >
-                            <TextFieldPassword 
-                                id='password' 
-                                name='password'
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            xs={ 12 }
-                            sx={{
-                                mt:5
-                            }}
-                        >
-                            <Button
-                                variant='contained'
-                                fullWidth
-                                endIcon={ <Login /> }
-                                type='submit'
-                            >
-                                Login
-                            </Button>
-                        </Grid>
+                <FormProvider { ...form }>
+                    <form onSubmit={ form.handleSubmit( onSubmit ) }>
                         <Grid
                             container
-                            direction='row'
-                            justifyContent='end'
-                            sx={{
-                                mt: 2
-                            }}
+                        >
+                            <Grid
+                                item
+                                xs={ 12 }
+                                sx={{
+                                    mt:4
+                                }}
                             >
-                            <Link
-                                component={ RouterLink }
-                                color='inherit'
-                                to='/auth/register'
+                                <Controller
+                                    name='email'
+                                    render={({ field }) => (
+                                        <TextField 
+                                            label='Email'
+                                            variant='standard'
+                                            placeholder="tucorreo@google.com"
+                                            fullWidth
+                                            { ...field }
+                                        />
+                                    )}
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                xs={ 12 }
+                                sx={{
+                                    mt:3
+                                }}
                             >
-                                Crear una cuenta
-                            </Link>
+                                <TextFieldPassword />
+                            </Grid>
+                            <Grid
+                                item
+                                xs={ 12 }
+                                sx={{
+                                    mt:5
+                                }}
+                            >
+                                <Button
+                                    variant='contained'
+                                    fullWidth
+                                    endIcon={ <Login /> }
+                                    type='submit'
+                                    disabled={ status === 'checking' }
+                                >
+                                    Login
+                                </Button>
+                            </Grid>
+                            <Grid
+                                container
+                                direction='row'
+                                justifyContent='end'
+                                sx={{
+                                    mt: 2
+                                }}
+                                >
+                                <Link
+                                    component={ RouterLink }
+                                    color='inherit'
+                                    to='/auth/register'
+                                >
+                                    Crear una cuenta
+                                </Link>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </form>
+                    </form>
+                </FormProvider>
             </Box>
         </Box>
     )
