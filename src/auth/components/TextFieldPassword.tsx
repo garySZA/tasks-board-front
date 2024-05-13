@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { FormControl, IconButton, Input, InputAdornment, InputLabel } from '@mui/material';
+import { FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormState } from 'react-hook-form';
+import { ITextfieldPasswordProps } from '../../types';
 
-export const TextFieldPassword = () => {
+export const TextFieldPassword = ({ name, label, fullWidth=false, variant }: ITextfieldPasswordProps) => {
+    const { errors } = useFormState();
     const [showPassword, setShowPassword] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword(( show ) => !show );
@@ -14,20 +16,22 @@ export const TextFieldPassword = () => {
 
     return (
         <FormControl
-            variant='standard'
-            fullWidth
+            variant={ variant }
+            fullWidth={ fullWidth }
+            error={ errors[name] ? true : false }
         >
             <InputLabel
-                htmlFor='password'
+                htmlFor={ name }
             >
-                Password
+                { label }
             </InputLabel>
             <Controller 
-                name='password'
+                name={ name }
                 render={({ field }) => (
+                    
                     <Input 
                         { ...field }
-                        id='password'
+                        id={ name }
                         type={ showPassword ? 'text' : 'password' }
                         endAdornment={
                             <InputAdornment position='end'>
@@ -40,9 +44,11 @@ export const TextFieldPassword = () => {
                                 </IconButton>
                             </InputAdornment>
                         }
+                        
                     />
                 )}
             />
+            { errors[name] && <FormHelperText>{ String( errors[name] ? errors[name]?.message : '' ) }</FormHelperText> }
         </FormControl>
     )
 }

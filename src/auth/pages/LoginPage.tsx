@@ -2,33 +2,32 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Box, Button, CardMedia, Divider, Grid, Link, TextField, Typography } from "@mui/material";
 import { Login } from "@mui/icons-material";
 import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { TextFieldPassword } from "../components";
 
 import login_img from '../../assets/login_img.jpg';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { LoginTypes } from '../../types';
-import { loginDefaultValues, sleep } from '../../helpers';
-import { checkingCredentials, login } from '../../store/auth';
-import { RootState } from '../../store';
-import { toast } from 'react-toastify';
-
+import { TLogin } from '../../types';
+import { loginDefaultValues, loginSchema, sleep } from '../../helpers';
 
 export const LoginPage = () => {
-    const { status } = useAppSelector(( state: RootState ) => state.auth );
-    const dispatch = useAppDispatch();
-    const form = useForm<LoginTypes>({
-        defaultValues: loginDefaultValues
+    
+    const form = useForm<TLogin>({
+        defaultValues: loginDefaultValues,
+        resolver: yupResolver( loginSchema )
     });
 
-    const onSubmit: SubmitHandler<LoginTypes> = async ( data ) => {
-        dispatch( checkingCredentials() );
+    const { formState } = form;
+
+    const onSubmit: SubmitHandler<TLogin> = async ( data ) => {
+        
 
         console.log( data );
 
         await sleep( 1 );
 
-        dispatch( login() );
+        
         toast.success('exitoso')
     }
 
@@ -65,12 +64,15 @@ export const LoginPage = () => {
                                 <Controller
                                     name='email'
                                     render={({ field }) => (
-                                        <TextField 
+                                        <TextField
+                                            error={ formState.errors['email'] ? true: false }
                                             label='Email'
                                             variant='standard'
                                             placeholder="tucorreo@google.com"
                                             fullWidth
+                                            helperText={ String(formState.errors['email'] ? formState.errors['email'].message: '') }
                                             { ...field }
+                                            
                                         />
                                     )}
                                 />
@@ -82,7 +84,12 @@ export const LoginPage = () => {
                                     mt:3
                                 }}
                             >
-                                <TextFieldPassword />
+                                <TextFieldPassword
+                                    name='password'
+                                    label='Password'
+                                    variant='standard'
+                                    fullWidth
+                                />
                             </Grid>
                             <Grid
                                 item

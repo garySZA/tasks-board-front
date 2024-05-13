@@ -1,7 +1,8 @@
-import { AuthInitialStateType } from '../types';
+import { TAuthInitialState } from '../types';
 
-export const AuthInitialState: AuthInitialStateType = {
+export const AuthInitialState: TAuthInitialState = {
     status: 'not-authenticated',
     token: null,
-    user: null
+    user: null,
+    errorMessage: null
 }
