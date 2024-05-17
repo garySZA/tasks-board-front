@@ -1,7 +1,7 @@
 import { TLogin, TRegister } from '../types';
 
 export const loginDefaultValues: TLogin = {
-    email: 'gary@soliz.com',
+    email: 'gary@google.com',
     password: '123456',
 }
 

@@ -1,24 +1,39 @@
-import { sleep } from '../../helpers';
+import { isAxiosError } from 'axios';
+import { toast } from 'react-toastify';
+
+import { taskboardApi } from '../../api';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { RootState } from '../../store';
-import { clearErrorMessage, onCheckingCredentials, onLogout } from '../../store/auth';
+import { clearErrorMessage, onCheckingCredentials, onLogin, onLogout } from '../../store/auth';
 import { TLoginData, TRegisterData } from '../../types';
+import { sleep } from '../../helpers';
 
 export const useAuthStore = () => {
     const { status, user } = useAppSelector(( state: RootState ) => state.auth);
     const dispatch = useAppDispatch();
 
-    const startLogin = async( data: TLoginData) => {
+    const startLogin = async( dataLogin: TLoginData) => {
         dispatch( onCheckingCredentials() );
 
         //* Call to API
         try {
-            
-        } catch (error) {
-            dispatch( onLogout('Incorrect credentials') );
+            const { data } = await taskboardApi.post('/auth/login', dataLogin);
 
-            sleep(1);
-            dispatch( clearErrorMessage() );
+            localStorage.setItem('token', data.token);
+
+            dispatch( onLogin({ name: data.name, uid: data.uid }) );
+        } catch ( error ) {
+            if( isAxiosError( error ) ){
+                const errorMessage = error.response?.data.msg;
+
+                toast.error(errorMessage);
+                dispatch( onLogout('Incorrect credentials') );
+                sleep(1);
+                dispatch( clearErrorMessage() );
+            } else {
+                console.log('Unexpected error: ', error);
+            }
+            
         }
     }
 
@@ -26,11 +41,11 @@ export const useAuthStore = () => {
         dispatch( onCheckingCredentials() );
         console.log(data, 'data')
         //* Call to API
-        try {
+        // try {
             
-        } catch (error) {
-            // TODO: gestionar errores devueltos por backend
-        }
+        // } catch (error) {
+        //     // TODO: gestionar errores devueltos por backend
+        // }
     }
 
     const startLogout = () => {

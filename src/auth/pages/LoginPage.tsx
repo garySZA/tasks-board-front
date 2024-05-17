@@ -1,34 +1,27 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Button, CardMedia, Divider, Grid, Link, TextField, Typography } from "@mui/material";
+import { Box, Button, CardMedia, Divider, Grid, Link, Typography } from "@mui/material";
 import { Login } from "@mui/icons-material";
-import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { TextFieldPassword } from "../components";
 
 import login_img from '../../assets/login_img.jpg';
 import { TLogin } from '../../types';
-import { loginDefaultValues, loginSchema, sleep } from '../../helpers';
+import { loginDefaultValues, loginSchema } from '../../helpers';
+import { Input } from '../../components';
+import { useAuthStore } from '../hooks';
 
 export const LoginPage = () => {
-    
+    const { startLogin } = useAuthStore();
     const form = useForm<TLogin>({
         defaultValues: loginDefaultValues,
         resolver: yupResolver( loginSchema )
     });
 
-    const { formState } = form;
-
     const onSubmit: SubmitHandler<TLogin> = async ( data ) => {
         
-
-        console.log( data );
-
-        await sleep( 1 );
-
-        
-        toast.success('exitoso')
+        startLogin(data);
     }
 
     return (
@@ -61,20 +54,12 @@ export const LoginPage = () => {
                                     mt:4
                                 }}
                             >
-                                <Controller
+                                <Input 
                                     name='email'
-                                    render={({ field }) => (
-                                        <TextField
-                                            error={ formState.errors['email'] ? true: false }
-                                            label='Email'
-                                            variant='standard'
-                                            placeholder="tucorreo@google.com"
-                                            fullWidth
-                                            helperText={ String(formState.errors['email'] ? formState.errors['email'].message: '') }
-                                            { ...field }
-                                            
-                                        />
-                                    )}
+                                    label='Email'
+                                    placeholder='Enter your email'
+                                    variant='standard'
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid

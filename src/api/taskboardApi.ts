@@ -11,3 +11,7 @@ taskboardApi.interceptors.request.use( config => {
 
     return config;
 });
+
+export {
+    taskboardApi
+}
