@@ -29,6 +29,10 @@ export type TAuthInitialState = {
     errorMessage: string | null;
 }
 
+export type TUiInitialState = {
+    isOpenedDrawer: boolean
+}
+
 export type TInputVariant = 'standard' | 'filled' | 'outlined';
 
 export type TTextfieldProps = {

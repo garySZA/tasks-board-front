@@ -33,19 +33,54 @@ export const useAuthStore = () => {
             } else {
                 console.log('Unexpected error: ', error);
             }
-            
         }
     }
 
-    const startRegister = async( data: TRegisterData ) => {
+    const startRegister = async( dataRegister: TRegisterData ) => {
         dispatch( onCheckingCredentials() );
-        console.log(data, 'data')
+        
         //* Call to API
-        // try {
+        try {
             
-        // } catch (error) {
-        //     // TODO: gestionar errores devueltos por backend
-        // }
+            const { data } = await taskboardApi.post('/auth/register', dataRegister);
+
+            localStorage.setItem('token', data.token);
+            dispatch(onLogin({ name: data.name, uid: data.uid }));
+
+            toast.success('Cuenta creada exitosamente');
+        } catch (error) {
+            if( isAxiosError( error ) ){
+                const errorMessage = error.response?.data.errors;
+
+                for (const i in errorMessage) {
+                    toast.error( errorMessage[i].msg );
+                }
+
+                dispatch( onLogout('Incorrect fields') );
+                sleep(1);
+                dispatch( clearErrorMessage() );
+            } else {
+                console.log('Unexpected error: ', error);
+            }
+        }
+    }
+
+    const checkAuthToken = async() => {
+        const token = localStorage.getItem('token');
+
+        if( !token ) return dispatch( onLogout(null) );
+
+        try {
+            const { data } = await taskboardApi.post('/auth/renew');
+            
+            localStorage.setItem('token', data.token);
+
+            dispatch( onLogin({ name: data.name, uid: data.uid }));
+        
+        } catch (error) {
+            localStorage.clear();
+            dispatch( onLogout( null ) );
+        }
     }
 
     const startLogout = () => {
@@ -59,6 +94,7 @@ export const useAuthStore = () => {
         user,
 
         //* Methods
+        checkAuthToken,
         startLogin,
         startLogout,
         startRegister,

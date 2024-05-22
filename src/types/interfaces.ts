@@ -19,3 +19,7 @@ export interface IInputProps {
 export interface ITextfieldPasswordProps extends IInputProps {
 
 }
+
+export interface IMenuProps {
+    drawerWidth: number;
+}

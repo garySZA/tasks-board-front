@@ -1,9 +1,10 @@
 import { Outlet } from 'react-router-dom';
+import { Navbar } from '../components';
 
 export const TaskBoardLayout = () => {
     return (
         <>
-            <div>TaskBoardLayout</div>
+            <Navbar />
             <Outlet />
         </>
     )

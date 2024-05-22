@@ -1,22 +1,21 @@
-import { useRoutes } from 'react-router-dom';
-import { NotFoundView } from '../taskboard/pages';
+import { Navigate, useRoutes } from 'react-router-dom';
+
 import { LoginPage, RegisterPage } from '../auth/pages';
 import { ProjectView } from '../taskboard/views/ProjectView';
-import { AuthLayout } from '../auth/layout';
+import { useAuthStore } from '../auth/hooks';
 import { TaskBoardLayout } from '../taskboard/layout';
+import { AuthLayout } from '../auth/layout';
+import { useEffect } from 'react';
 
 export const AppRouter = () => {
-    return useRoutes([
-        {
-            path: '/',
-            element: <TaskBoardLayout />,
-            children: [
-                {
-                    path: 'project',
-                    element: <ProjectView />
-                }
-            ]
-        },
+    const { status, checkAuthToken } = useAuthStore();
+    
+    useEffect(() => {
+        checkAuthToken();
+    }, [])
+    
+
+    const publicRoutes = [
         {
             path: '/auth',
             element: <AuthLayout />,
@@ -28,12 +27,34 @@ export const AppRouter = () => {
                 {
                     path: 'register',
                     element: <RegisterPage />
-                }
+                },
             ]
         },
         {
             path: '*',
-            element: <NotFoundView />
+            element: <Navigate to='/auth/login' />
         }
-    ]);
+    ]
+
+    const privateRoutes = [
+        {
+            path: '/',
+            element: <TaskBoardLayout />,
+            children: [
+                {
+                    path: 'project',
+                    element: <ProjectView />
+                },
+                {
+                    path: '*',
+                    element: <Navigate to='/project' />
+                }
+            ]
+        },
+    ]
+
+    const routes = status === 'not-authenticated' || status === 'checking' ? [...publicRoutes] : [...privateRoutes];
+
+    return useRoutes(routes);
+    
 }
