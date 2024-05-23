@@ -2,7 +2,7 @@ import { Controller, useFormState } from 'react-hook-form';
 import { TTextfieldProps } from '../types';
 import { TextField } from '@mui/material';
 
-export const Input = ({ name, label, placeholder, variant, fullWidth=false }: TTextfieldProps) => {
+export const Input = ({ name, label, placeholder, variant, fullWidth=false, type }: TTextfieldProps) => {
     const { errors } = useFormState();
 
     return (
@@ -10,6 +10,7 @@ export const Input = ({ name, label, placeholder, variant, fullWidth=false }: TT
             name={ name }
             render={({ field }) => (
                 <TextField 
+                    type={ type }
                     label={ label }
                     variant={ variant }
                     placeholder={ placeholder }

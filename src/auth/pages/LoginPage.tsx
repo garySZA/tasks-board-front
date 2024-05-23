@@ -55,6 +55,7 @@ export const LoginPage = () => {
                                 }}
                             >
                                 <Input 
+                                    type='email'
                                     name='email'
                                     label='Email'
                                     placeholder='Enter your email'

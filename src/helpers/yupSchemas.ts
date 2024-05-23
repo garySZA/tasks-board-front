@@ -19,7 +19,13 @@ const registerSchema = yup.object({
             .oneOf([ yup.ref('password')], 'must match password')
 }).required();
 
+const createTeamSchema = yup.object({
+    nameTeam: yup.string().required('El campo es requerido')
+    .min(4),
+}).required();
+
 export {
+    createTeamSchema,
     loginSchema,
     registerSchema
 }

@@ -1,9 +1,9 @@
 import { RootState } from '../store';
-import { closeDrawer, openDrawer } from '../store/ui';
+import { closeDrawer, hideCreateTeamModal, openDrawer, showCreateTeamModal } from '../store/ui';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 
 export const useUiStore = () => {
-    const { isOpenedDrawer } = useAppSelector(( state: RootState ) => state.ui );
+    const { isOpenedDrawer, isOpenedCreateTeamModal } = useAppSelector(( state: RootState ) => state.ui );
     const dispatch = useAppDispatch();
 
     const startShowDrawer = () => {
@@ -14,13 +14,24 @@ export const useUiStore = () => {
         dispatch( closeDrawer() );
     }
 
+    const startShowCreateTeamModal = () => {
+        dispatch( showCreateTeamModal() );
+    }
+
+    const startHideCreateTeamModal = () => {
+        dispatch( hideCreateTeamModal() );
+    }
+
     return {
         //* Variables
         open: isOpenedDrawer,
         closed: !isOpenedDrawer,
+        isOpenedCreateTeamModal,
 
         //* Methods
+        startHideCreateTeamModal,
+        startHideDrawer,
+        startShowCreateTeamModal,
         startShowDrawer,
-        startHideDrawer
     }
 }

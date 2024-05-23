@@ -11,10 +11,18 @@ export const uiSlice = createSlice({
 
         closeDrawer: (state) => {
             state.isOpenedDrawer = false;
+        },
+
+        showCreateTeamModal: (state) => {
+            state.isOpenedCreateTeamModal = true;
+        },
+
+        hideCreateTeamModal: (state) => {
+            state.isOpenedCreateTeamModal = false;
         }
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { openDrawer, closeDrawer } = uiSlice.actions;
+export const { openDrawer, closeDrawer, showCreateTeamModal, hideCreateTeamModal } = uiSlice.actions;

@@ -1,4 +1,4 @@
-import { TAuthInitialState, TUiInitialState } from '../types';
+import { TAuthInitialState, TTeamState, TUiInitialState } from '../types';
 
 export const AuthInitialState: TAuthInitialState = {
     status: 'not-authenticated',
@@ -8,5 +8,12 @@ export const AuthInitialState: TAuthInitialState = {
 }
 
 export const UiInitialState: TUiInitialState = {
-    isOpenedDrawer: false
+    isOpenedDrawer: false,
+    isOpenedCreateTeamModal: false
+}
+
+export const TeamInitialState: TTeamState = {
+    status: 'not-processing',
+    teams: [],
+    newTeam: null
 }
