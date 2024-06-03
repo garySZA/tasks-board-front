@@ -1,5 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Button, CardMedia, Divider, Grid, Link, Typography } from "@mui/material";
+import { Box, Button, Card, CardMedia, Divider, Grid, Link, Typography } from "@mui/material";
 import { Login } from "@mui/icons-material";
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -25,18 +25,18 @@ export const LoginPage = () => {
     }
 
     return (
-        <Box sx={{ display: 'flex', backgroundColor: 'secondary.main', gap: 2, flexDirection: { md: 'row', xs: 'column' } }}>
+        <Card sx={{ display: 'flex', backgroundColor: 'primary.main', flexDirection: { md: 'row', xs: 'column' } }}>
             <CardMedia 
                 component='img'
                 sx={{ width: 300, display: { xs: 'none', md: 'block' } }}
                 image={ login_img }
-                alt='keyboar image'
+                alt='keyboard image'
             />
-            <Box sx={{ display: 'flex', flexDirection: 'column', width: 300}}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', width: 300, p: 2}}>
                 <Typography 
                     variant='h2'
                     sx={{
-                        color: 'primary.main'
+                        color: 'secondary.main'
                     }}
                 >
                     Login
@@ -90,6 +90,7 @@ export const LoginPage = () => {
                                     endIcon={ <Login /> }
                                     type='submit'
                                     disabled={ status === 'checking' }
+                                    color='secondary'
                                 >
                                     Login
                                 </Button>
@@ -114,6 +115,6 @@ export const LoginPage = () => {
                     </form>
                 </FormProvider>
             </Box>
-        </Box>
+        </Card>
     )
 }

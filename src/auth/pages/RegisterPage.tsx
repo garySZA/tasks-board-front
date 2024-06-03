@@ -1,5 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Button, Divider, Grid, Link, Typography } from '@mui/material';
+import { Button, Card, Divider, Grid, Link, Typography } from '@mui/material';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -22,19 +22,20 @@ export const RegisterPage = () => {
     }
 
     return (
-        <Box
+        <Card
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                backgroundColor: 'secondary.main',
+                backgroundColor: 'primary.main',
                 gap: 2,
-                width: 450
+                maxWidth: '500px',
+                p: 3
             }}
         >
             <Typography
                 variant='h2'
                 sx={{
-                    color: 'primary.main'
+                    color: 'secondary.main'
                 }}
             >
                 Sign In
@@ -59,6 +60,7 @@ export const RegisterPage = () => {
                                 label='Name'
                                 placeholder='Enter your name'
                                 variant='standard'
+                                type='text'
                                 fullWidth
                             />
                         </Grid>
@@ -74,12 +76,14 @@ export const RegisterPage = () => {
                                 label='Email'
                                 placeholder='Enter your email'
                                 variant='standard'
+                                type='email'
                                 fullWidth
                             />
                         </Grid>
                         <Grid
                             item
-                            xs={ 6 }
+                            xs={ 12 }
+                            md={ 6 }
                             sx={{ mt: 3 }}
                         >
                             <TextFieldPassword
@@ -91,7 +95,8 @@ export const RegisterPage = () => {
                         </Grid>
                         <Grid
                             item
-                            xs={ 6 }
+                            xs={ 12 }
+                            md={ 6 }
                             sx={{ mt: 3}}
                         >
                             <TextFieldPassword
@@ -111,6 +116,7 @@ export const RegisterPage = () => {
                                 fullWidth
                                 type='submit'
                                 disabled={ status === 'checking' }
+                                color='secondary'
                             >
                                 Create account
                             </Button>
@@ -126,6 +132,7 @@ export const RegisterPage = () => {
                                 component={ RouterLink }
                                 to='/auth/login'
                                 underline='none'
+                                sx={{ color: 'secondary.main' }}
                             >
                                 Cancel
                             </Link>
@@ -133,6 +140,6 @@ export const RegisterPage = () => {
                     </Grid>
                 </form>
             </FormProvider>
-        </Box>
+        </Card>
     )
 }

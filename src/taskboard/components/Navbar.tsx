@@ -4,6 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Menu } from './Menu';
 import { useUiStore } from '../../hooks';
 import { UserMenu } from './UserMenu';
+import { SwitchTheme } from '../../components';
 
 const drawerWidth = 240;
 
@@ -48,6 +49,7 @@ export const Navbar = () => {
                     <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
                         Task board
                     </Typography>
+                    <SwitchTheme />
                     <UserMenu />
                 </Toolbar>
             </AppBar>

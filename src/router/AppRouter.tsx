@@ -6,14 +6,16 @@ import { useAuthStore } from '../auth/hooks';
 import { TaskBoardLayout } from '../taskboard/layout';
 import { AuthLayout } from '../auth/layout';
 import { useEffect } from 'react';
+import { useThemeStore } from '../hooks';
 
 export const AppRouter = () => {
     const { status, checkAuthToken } = useAuthStore();
-    
+    const { checkTheme } = useThemeStore();
+
     useEffect(() => {
         checkAuthToken();
+        checkTheme();
     }, [])
-    
 
     const publicRoutes = [
         {

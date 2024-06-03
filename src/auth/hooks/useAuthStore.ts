@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { RootState } from '../../store';
 import { clearErrorMessage, onCheckingCredentials, onLogin, onLogout } from '../../store/auth';
 import { TLoginData, TRegisterData } from '../../types';
-import { sleep } from '../../helpers';
+import { clearLocalStorage, sleep } from '../../helpers';
 
 export const useAuthStore = () => {
     const { status, user } = useAppSelector(( state: RootState ) => state.auth);
@@ -78,13 +78,13 @@ export const useAuthStore = () => {
             dispatch( onLogin({ name: data.name, uid: data.uid }));
         
         } catch (error) {
-            localStorage.clear();
+            clearLocalStorage();
             dispatch( onLogout( null ) );
         }
     }
 
     const startLogout = () => {
-        localStorage.clear();
+        clearLocalStorage();
         dispatch( onLogout( null ) );
     }
 

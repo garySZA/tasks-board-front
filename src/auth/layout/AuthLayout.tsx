@@ -21,7 +21,7 @@ export const AuthLayout = () => {
                     xs={ 3 }
                     sx={{
                         
-                        backgroundColor: 'secondary.main',
+                        backgroundColor: 'primary.main',
                         padding: 3,
                         borderRadius: 2
                     }}

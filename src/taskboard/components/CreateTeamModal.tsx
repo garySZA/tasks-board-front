@@ -3,19 +3,22 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 
-import { useTeamStore, useUiStore } from '../../hooks';
+import { useTeamStore, useThemeStore, useUiStore } from '../../hooks';
 import { Input } from '../../components';
 import { TTeam } from '../../types';
 import { createTeamDefaultValues, createTeamSchema } from '../../helpers';
+import { useEffect } from 'react';
+import { darkTheme, primaryTheme } from '../../theme';
 
-const customStyles = {
+let customStyles = {
     content: {
         top: '50%',
         left: '50%',
         right: 'auto',
         bottom: 'auto',
-        width: '500px'
-    }
+        width: '500px',
+        backgroundColor: '#fff'
+    },
 }
 
 Modal.setAppElement('#root');
@@ -23,6 +26,17 @@ Modal.setAppElement('#root');
 export const CreateTeamModal = () => {
     const { isOpenedCreateTeamModal, startHideCreateTeamModal } = useUiStore();
     const { status, startCreateTeam } = useTeamStore();
+    const { isActiveDarkMode } = useThemeStore();
+
+    useEffect(() => {
+        customStyles = {
+            content: {
+                ...customStyles.content,
+                backgroundColor: isActiveDarkMode ? darkTheme.palette.primary.main : primaryTheme.palette.primary.main
+            }
+        }
+    }, [isActiveDarkMode])
+    
 
     const form = useForm<TTeam>({
         defaultValues: createTeamDefaultValues,
@@ -51,7 +65,7 @@ export const CreateTeamModal = () => {
             overlayClassName='modal-fondo'
             closeTimeoutMS={ 200 }
         >
-            <Typography variant='h4'>
+            <Typography variant='h4' sx={{ color: 'secondary.main' }}>
                 Crear nuevo equipo
             </Typography>
             <Divider />
@@ -81,12 +95,12 @@ export const CreateTeamModal = () => {
                             />
                         </Grid>
                         <Grid item mx={'auto'} xs={ 10 } sx={{ mt: 3 }}>
-                            <Button variant='contained' fullWidth type='submit' disabled={ status === 'processing' ? true : false }>
+                            <Button variant='contained' fullWidth type='submit' disabled={ status === 'processing' ? true : false } color='secondary'>
                                 Crear
                             </Button>
                         </Grid>
                         <Grid item mx={'auto'} xs={ 10 } sx={{ mt: 2 }}>
-                            <Button variant='text' fullWidth>
+                            <Button variant='text' fullWidth onClick={ handleCloseModal } sx={{color: 'secondary.main'}}>
                                 Cancelar
                             </Button>
                         </Grid>

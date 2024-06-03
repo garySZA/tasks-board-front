@@ -19,7 +19,7 @@ export const ProjectView = () => {
                     item
                     sx={{ ml: 'auto', marginY: 2, mr: 2 }}
                 >
-                    <Button variant='outlined' onClick={ handleCreateNewTeam }>
+                    <Button variant='outlined' onClick={ handleCreateNewTeam } color='secondary'>
                         Nuevo Equipo
                     </Button>
                 </Grid>
