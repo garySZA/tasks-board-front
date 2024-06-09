@@ -1,30 +1,67 @@
-# React + TypeScript + Vite
+# Taskboard App Frontend - React + TS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación tipo tablero para gestionar tareas de desarrollo para metodologías ágiles
 
-Currently, two official plugins are available:
+## Variables de Entorno
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+| Variable       | Tipo de Valor                                         | Descripción                                                                                                                                                                                                                         |
+| -------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `VITE_MODE`    | `string` ejem:`development, production, testing, etc` | Especifica el modo de ejecución en el que se utilizarán las variables de entorno. Por ejemplo, development para desarrollo o production para producción.                                                                            |
+| `VITE_API_URL` | `string` ejem: `http://localhost:8083/api/v1`         | Debe contener la URL del servidor backend incluyendo el prefijo de la API. Por ejemplo, `http://localhost:8083/api/v1` para un servidor backend en ejecución en `localhost` en el puerto `8083` con el prefijo de la API `api/v1/`. |
 
-## Expanding the ESLint configuration
+## Ejecución Docker
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Para poder ejecutar la aplicación se debe ejecutar el siguiente comando en una terminal de comandos:
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+  docker run -p 8090:80 -e VITE_API_URL=http://localhost:8083/api/v1 taskboard-app-front
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Ejecución de manera local
+
+Clonar el proyecto
+
+```bash
+  git clone https://github.com/garySZA/tasks-board-front.git
+```
+
+Ingresar al directorio del proyecto
+
+```bash
+  cd tasks-board
+```
+
+Instalar dependencias
+
+```bash
+  yarn install
+```
+
+Crear archivo con variables de directorio
+
+```bash
+  copy .env.example .env.development
+```
+
+Reemplazar el valor de las variables de entorno que se encuentran en .env.development como se especifica en la sección de variables de entorno de este archivo
+
+Ejecutar la aplicación en modo desarrollo
+
+```bash
+  yarn dev
+```
+
+> **NOTA:**
+>
+> Para ejecutar la aplicación se tienen diferentes modos (development, production, y testing). Para cada uno de ellos debe existir un archivo `.env` que contenga las variables específicas para cada modo.
+>
+> - `.env.development`
+> - `.env.production`
+> - `.env.testing`
+>
+> La ejecución se podrá realizar en los siguientes modos, considerando lo dicho anteriormente:
+>
+> ```bash
+> yarn dev
+> yarn prod
+> ```
