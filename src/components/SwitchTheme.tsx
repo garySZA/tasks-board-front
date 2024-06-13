@@ -60,7 +60,7 @@ export const SwitchTheme = () => {
         <FormGroup>
             <FormControlLabel
                 control={ <MaterialUISwitch sx={{ m:1 }} defaultChecked /> }
-                label={ `Tema: ${ isActiveDarkMode ? 'Oscuro' : 'Claro' }` }
+                label=''
                 labelPlacement='start'
                 onChange={ handleOnChange }
             />

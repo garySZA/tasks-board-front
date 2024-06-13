@@ -1,12 +1,12 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 
 import { LoginPage, RegisterPage } from '../auth/pages';
-import { ProjectView } from '../taskboard/views/ProjectView';
 import { useAuthStore } from '../auth/hooks';
 import { TaskBoardLayout } from '../taskboard/layout';
 import { AuthLayout } from '../auth/layout';
 import { useEffect } from 'react';
 import { useThemeStore } from '../hooks';
+import { HomeView, ProjectView } from '../taskboard/views';
 
 export const AppRouter = () => {
     const { status, checkAuthToken } = useAuthStore();
@@ -44,12 +44,16 @@ export const AppRouter = () => {
             element: <TaskBoardLayout />,
             children: [
                 {
+                    path: 'teams',
+                    element: <HomeView />
+                },
+                {
                     path: 'project',
                     element: <ProjectView />
                 },
                 {
                     path: '*',
-                    element: <Navigate to='/project' />
+                    element: <Navigate to='/teams' />
                 }
             ]
         },

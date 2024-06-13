@@ -25,7 +25,6 @@ export const ProjectView = () => {
                 </Grid>
             </Grid>
             <CreateTeamModal />
-
         </>
     )
 }

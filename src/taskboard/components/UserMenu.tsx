@@ -25,7 +25,7 @@ export const UserMenu = () => {
                 onClick={ handleMenu }
                 color='inherit'
             >
-                <AccountCircle />
+                <AccountCircle sx={{fontSize: '30px'}}/>
             </IconButton>
             <Menu
                 id='menu-appbar'
