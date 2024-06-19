@@ -1,10 +1,12 @@
 import { Box, Button, CardActions, CardContent, Card as CardMUI, Typography } from '@mui/material';
 import { TCard } from '../../types';
+import { useNavigate } from 'react-router-dom';
 
 export const Card = ({ nameTeam, createdAt, idTeam}: TCard) => {
-    
+    const navigate = useNavigate();
+
     const handleShowTeam = () => {
-        console.log('ver equipo: ' + idTeam);
+        navigate(`/teams/${idTeam}`);
     }
     
     return (

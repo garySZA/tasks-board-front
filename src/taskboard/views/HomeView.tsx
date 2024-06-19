@@ -2,13 +2,16 @@ import { Button, Grid, Typography, useMediaQuery, useTheme } from '@mui/material
 
 import { Card, CreateTeamModal } from '../components';
 import { useUiStore } from '../../hooks';
-import { teams } from '../../helpers';
-
+import { useTeams } from '../hooks';
+import { Team } from '../../interfaces';
+import { useAuthStore } from '../../auth/hooks';
 
 export const HomeView = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery( theme.breakpoints.down('sm') );
     const { startShowCreateTeamModal } = useUiStore();
+    const { user } = useAuthStore();
+    const { teams } = useTeams({ uid: user!.uid, filterKey: '' });
 
     const handleCreateNewTeam = () => {
         startShowCreateTeamModal();
@@ -45,7 +48,7 @@ export const HomeView = () => {
                 rowGap={ 1 }
             >
                 {
-                    teams.map(( team ) => (
+                    teams.map(( team: Team ) => (
                         <Grid
                             item
                             xs={ 12 }
@@ -55,7 +58,7 @@ export const HomeView = () => {
                             xl={ 3 }
                             key={ team.idTeam }
                         >
-                            <Card createdAt={ team.createdAt } nameTeam={ team.nameTeam } idTeam={ team.idTeam }/>
+                            <Card createdAt={ team.createdAt } nameTeam={ team.nameTeam } idTeam={ team.idTeam } />
                         </Grid>
                     ))
                 }

@@ -12,7 +12,7 @@ export const UiInitialState: TUiInitialState = {
     isOpenedCreateTeamModal: false
 }
 
-export const TeamInitialState: TTeamState = {
+export const TaskboardInitialState: TTeamState = {
     status: 'not-processing',
     teams: [],
     newTeam: null

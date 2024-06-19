@@ -1,3 +1,5 @@
+import { Team } from "../interfaces";
+
 export type ThemeState = {
     isActiveDarkMode: boolean
 }
@@ -23,8 +25,7 @@ export type TAuthState = 'checking' | 'authenticated' | 'not-authenticated';
 
 export type UserType = {
     name: string;
-    email: string;
-    photoUrl: string;
+    uid: number
 }
 
 export type TAuthInitialState = {
@@ -41,7 +42,7 @@ export type TUiInitialState = {
 
 export type TTeamState = {
     status: 'processing' | 'success' | 'error' | 'not-processing';
-    teams: TTeam[];
+    teams: Team[];
     newTeam: {
         id: number;
         nameTeam: string;

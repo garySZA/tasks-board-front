@@ -3,12 +3,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Modal from 'react-modal';
 
-import { useTeamStore, useThemeStore, useUiStore } from '../../hooks';
+import { useThemeStore, useUiStore } from '../../hooks';
 import { Input } from '../../components';
-import { TTeam } from '../../types';
 import { createTeamDefaultValues, createTeamSchema } from '../../helpers';
 import { useEffect } from 'react';
 import { darkTheme, primaryTheme } from '../../theme';
+import { TeamLike } from '../../interfaces';
+import { useTeamMutation } from '../hooks';
 
 let customStyles = {
     content: {
@@ -25,8 +26,8 @@ Modal.setAppElement('#root');
 
 export const CreateTeamModal = () => {
     const { isOpenedCreateTeamModal, startHideCreateTeamModal } = useUiStore();
-    const { status, startCreateTeam } = useTeamStore();
     const { isActiveDarkMode } = useThemeStore();
+    const { mutation: teamMutation } = useTeamMutation();
 
     useEffect(() => {
         customStyles = {
@@ -38,7 +39,7 @@ export const CreateTeamModal = () => {
     }, [isActiveDarkMode])
     
 
-    const form = useForm<TTeam>({
+    const form = useForm<TeamLike>({
         defaultValues: createTeamDefaultValues,
         resolver: yupResolver( createTeamSchema )
     });
@@ -47,13 +48,13 @@ export const CreateTeamModal = () => {
         startHideCreateTeamModal();
     }
 
-    const handleOnSubmit: SubmitHandler<TTeam> = async ( data ) => {
-        const result = await startCreateTeam( data );
-
-        if( result ){
-            form.reset();
-            handleCloseModal();
-        }
+    const handleOnSubmit: SubmitHandler<TeamLike>= async ( data ) => {
+        await teamMutation.mutate( data, {
+            onSuccess: () => {
+                form.reset();
+                handleCloseModal();
+            }
+        });
     }
     
     return (
@@ -95,7 +96,11 @@ export const CreateTeamModal = () => {
                             />
                         </Grid>
                         <Grid item mx={'auto'} xs={ 10 } sx={{ mt: 3 }}>
-                            <Button variant='contained' fullWidth type='submit' disabled={ status === 'processing' ? true : false } color='secondary'>
+                            <Button 
+                                variant='contained' 
+                                fullWidth type='submit' 
+                                disabled={ teamMutation.isPending } 
+                                color='secondary'>
                                 Crear
                             </Button>
                         </Grid>

@@ -1,18 +1,19 @@
-import { taskboardApi } from '../api';
-import { RootState } from '../store';
-import { createTeam, processing } from '../store/team';
-import { TTeam } from '../types';
-import { useAppDispatch, useAppSelector } from './reduxHooks';
+import { taskboardApi } from '../../api';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { TeamLike } from '../../interfaces';
+import { RootState } from '../../store';
+import { createTeam, processing } from '../../store/taskboard';
 
-export const useTeamStore = () => {
-    const { newTeam, teams, status } = useAppSelector(( state: RootState ) => state.team );
+export const useTaskboardStore = () => {
+    const { newTeam, teams, status } = useAppSelector(( state: RootState ) => state.taskboard );
     const dispatch = useAppDispatch();
 
-    const startCreateTeam = async (dataTeam: TTeam) => {
+
+    const startCreateTeam = async ( dataTeam: TeamLike ) => {
         dispatch( processing() );
 
         try {
-            //* Llamada a api
+            
             const { data } = await taskboardApi.post('/teams', dataTeam);
 
             dispatch( createTeam( data.team ) );
@@ -22,6 +23,7 @@ export const useTeamStore = () => {
             console.log(error);
             return false;
         }
+
     }
 
     return {
