@@ -2,17 +2,24 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
 import { TeamActions } from '../../services';
+import { Team } from '../../interfaces';
 
 export const useTeamMutation = () => {
     const queryClient = useQueryClient();
     
     const mutation = useMutation({
         mutationFn: TeamActions.createTeam,
-        onSuccess: () => {
+        onSuccess: ( data ) => {
             toast.success('Equipo creado');
-            queryClient.invalidateQueries({
-                queryKey: ['teams', '']
-            });
+            
+            //* Invalidar una Query
+            // queryClient.invalidateQueries({
+            //     queryKey: ['teams', '']
+            // });
+            queryClient.setQueryData<Team[]>(
+                ['teams', ''],
+                ( old ) => old && data ? [...old, data] : old
+            );
         },
     });
     

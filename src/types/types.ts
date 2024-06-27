@@ -73,3 +73,11 @@ export type TRegisterData = {
     email: string;
     password: string;
 }
+
+export type TChipVariant = 'filled' | 'outlined'
+
+export type TChipUserProps = {
+    avatarUrl?: string;
+    nameUser: string;
+    variant: TChipVariant;
+}

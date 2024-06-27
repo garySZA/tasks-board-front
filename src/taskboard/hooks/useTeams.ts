@@ -4,7 +4,7 @@ import { GetTeamsOptions } from '../../interfaces';
 import { TeamActions } from '../../services';
 
 export const useTeams = ({ uid, filterKey }: GetTeamsOptions) => {    
-    const { data: response, isLoading } = useQuery({
+    const { data: teams, isLoading } = useQuery({
         queryKey: ['teams', filterKey],
         queryFn: () => TeamActions.getTeams( { uid, filterKey } ),
         staleTime: 1000 * 60 * 2
@@ -12,7 +12,8 @@ export const useTeams = ({ uid, filterKey }: GetTeamsOptions) => {
 
     return {
         //* Props
-        teams: isLoading ? [] : response.teams,
+        teams,
+        isLoading,
 
         //* Methods
     }

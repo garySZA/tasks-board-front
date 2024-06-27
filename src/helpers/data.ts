@@ -1,3 +1,4 @@
+import { User } from '../interfaces';
 import { Team } from '../types';
 
 export const teams: Team[] = [
@@ -82,4 +83,35 @@ export const teams: Team[] = [
         createdAt: "2024-06-11T23:40:16.000Z",
         updatedAt: "2024-06-11T23:40:16.000Z"
     }
+];
+
+export const memberUsers: User[] = [
+    {
+        name: 'Carlos',
+        idUser: 1
+    },
+    {
+        name: 'Jose',
+        idUser: 2
+    },
+    {
+        name: 'Gary',
+        idUser: 3
+    },
+    {
+        name: 'Selena',
+        idUser: 4
+    },
+    {
+        name: 'Andres',
+        idUser: 5
+    },
+    {
+        name: 'Gustavo',
+        idUser: 6
+    },
+    {
+        name: 'Tatiana',
+        idUser: 7
+    },
 ]

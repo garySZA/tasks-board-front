@@ -6,17 +6,15 @@ export const getTeams = async ({ uid, filterKey }: GetTeamsOptions ) => {
     
     const { data } = await taskboardApi.get(`/teams/creator/${ uid }?${ filterUrl }`);
 
-    return data;
+    return data.teams;
 };
 
 export const createTeam = async ( dataTeam: TeamLike ) => {
     try {
         const { data } = await taskboardApi.post<CreateTeamResponse>('/teams', dataTeam);
     
-        return data.ok;
+        return data.team;
     } catch (error) {
         console.log(error);
-
-        return false;
     }
 }

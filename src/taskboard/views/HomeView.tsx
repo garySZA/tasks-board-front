@@ -1,4 +1,4 @@
-import { Button, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Button, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 
 import { Card, CreateTeamModal } from '../components';
 import { useUiStore } from '../../hooks';
@@ -11,18 +11,15 @@ export const HomeView = () => {
     const isMobile = useMediaQuery( theme.breakpoints.down('sm') );
     const { startShowCreateTeamModal } = useUiStore();
     const { user } = useAuthStore();
-    const { teams } = useTeams({ uid: user!.uid, filterKey: '' });
+    const { teams, isLoading } = useTeams({ uid: user!.uid, filterKey: '' });
 
     const handleCreateNewTeam = () => {
         startShowCreateTeamModal();
     }
     
     return (
-        <>
-            <Grid
-                container
-                sx={{ maxWidth: 1200, marginX: 'auto' }}
-            >
+        <Box sx={{ maxWidth: 1200, mx: { xs: 2, xl: 'auto' } }}>
+            <Grid container>
                 <Grid
                     item
                     sx={{ marginY: 2 }}
@@ -40,7 +37,6 @@ export const HomeView = () => {
             </Grid>
             <Grid 
                 container 
-                sx={{ maxWidth: 1200, marginX: 'auto' }} 
                 width={{ xs: '100%', sm: '90%', md: '100%', lg: '100%', xl: '100%' }}
                 justifyContent='start'
                 alignItems='center'
@@ -48,7 +44,7 @@ export const HomeView = () => {
                 rowGap={ 1 }
             >
                 {
-                    teams.map(( team: Team ) => (
+                    !isLoading && teams.map(( team: Team ) => (
                         <Grid
                             item
                             xs={ 12 }
@@ -65,6 +61,6 @@ export const HomeView = () => {
 
             </Grid>
             <CreateTeamModal />
-        </>
+        </Box>
     )
 }
