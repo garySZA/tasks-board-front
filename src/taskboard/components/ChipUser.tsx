@@ -8,7 +8,7 @@ export const ChipUser = ({ avatarUrl, nameUser, variant }: TChipUserProps) => {
                 avatar={ avatarUrl 
                         ? <Avatar alt='user avatar' src={ avatarUrl } /> 
                         : <Avatar>{ nameUser[0].toLocaleUpperCase() }</Avatar> }
-                label={ nameUser }
+                label={ nameUser.length > 12 ?  nameUser.slice(0,14) + '...' : nameUser }
                 variant={ variant }
             />
         </>

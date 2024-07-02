@@ -1,4 +1,4 @@
-import { Team } from "../interfaces";
+import { Team, TeamMemberData } from "../interfaces";
 
 export type ThemeState = {
     isActiveDarkMode: boolean
@@ -38,6 +38,7 @@ export type TAuthInitialState = {
 export type TUiInitialState = {
     isOpenedDrawer: boolean;
     isOpenedCreateTeamModal: boolean;
+    isOpenedModal: boolean;
 }
 
 export type TTeamState = {
@@ -80,4 +81,17 @@ export type TChipUserProps = {
     avatarUrl?: string;
     nameUser: string;
     variant: TChipVariant;
+}
+
+export type TEditMembersFormProps = {
+    members: TeamMemberData[];
+}
+
+export type TCheckboxListMembersProps = {
+    members: TeamMemberData[];
+}
+
+export type TAvatarUserProps = {
+    url?: string;
+    nameUser: string;
 }

@@ -1,5 +1,5 @@
 import { taskboardApi } from '../api';
-import { CreateTeamResponse, GetTeamsOptions, TeamLike } from '../interfaces/team';
+import { CreateTeamResponse, GetTeamsOptions, TeamLike, GetTeamMembersResponse } from '../interfaces/team';
 
 export const getTeams = async ({ uid, filterKey }: GetTeamsOptions ) => {
     const filterUrl = ( filterKey ) ? `filter=${ filterKey }` : '';
@@ -17,4 +17,10 @@ export const createTeam = async ( dataTeam: TeamLike ) => {
     } catch (error) {
         console.log(error);
     }
+};
+
+export const getTeamMembers = async ( teamId: number ) => {
+    const { data } = await taskboardApi.get<GetTeamMembersResponse>(`/teams/getTeamMembers/${ teamId }`);
+
+    return data;
 }

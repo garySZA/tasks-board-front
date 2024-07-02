@@ -1,16 +1,21 @@
 import { ArrowBackIos } from '@mui/icons-material';
 import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
+import { useParams } from 'react-router-dom';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 
-import { memberUsers } from '../../helpers';
-import { ChipUser } from '../components';
-import { useNavigationOptions } from '../../hooks';
+import { ChipUser, EditMembersForm } from '../components';
+import { useNavigationOptions, useUiStore } from '../../hooks';
+import { useTeamMembers } from '../hooks';
+import { ModalLayout } from '../layout';
 
 export const ProjectsView = () => {
+    const { id } = useParams();    
+    const { data: members } = useTeamMembers( id ? parseInt( id ) : 1 );
     const { goToBack } = useNavigationOptions();
+    const { startShowModal } = useUiStore();
     
     const handleEditMembers = () => {
-        console.log('se desea editar los miembros del equipo')
+        startShowModal();
     }
 
     return (
@@ -20,7 +25,7 @@ export const ProjectsView = () => {
                     item 
                     sx={{ my: 2 }}
                 >
-                    <Typography variant='h5' > Miembros de equipo: 22 </Typography>
+                    <Typography variant='h5' > Miembros de equipo: { members?.count } </Typography>
                 </Grid>
                 <Grid 
                     item
@@ -57,7 +62,7 @@ export const ProjectsView = () => {
                 <Grid item xs={12}>
                     <Stack direction='row' spacing={ 2 } useFlexGap flexWrap='wrap' >
                         {
-                            memberUsers.map( user => (
+                            members?.teamMembers.map( ({ user }) => (
                                 <ChipUser 
                                     nameUser={ user.name }
                                     variant='outlined'
@@ -69,6 +74,9 @@ export const ProjectsView = () => {
                 </Grid>
             </Grid>
             <Divider variant='middle' sx={{ my: 2 }}/>
+            <ModalLayout>
+                <EditMembersForm members={ members ? members.teamMembers : [] }/>
+            </ModalLayout>
         </Box>
     )
 }

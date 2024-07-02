@@ -27,3 +27,19 @@ export interface CreateTeamResponse {
     ok: boolean;
     team: Team;
 }
+
+export interface MemberData {
+    idUser: number;
+    name: string;
+    imageUrl: string | null;
+}
+
+export interface TeamMemberData {
+    idUser: number;
+    user: MemberData;
+}
+
+export interface GetTeamMembersResponse {
+    count: number;
+    teamMembers: TeamMemberData[];
+}

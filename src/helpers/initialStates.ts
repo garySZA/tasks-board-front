@@ -9,7 +9,8 @@ export const AuthInitialState: TAuthInitialState = {
 
 export const UiInitialState: TUiInitialState = {
     isOpenedDrawer: false,
-    isOpenedCreateTeamModal: false
+    isOpenedCreateTeamModal: false,
+    isOpenedModal: false
 }
 
 export const TaskboardInitialState: TTeamState = {
