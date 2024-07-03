@@ -17,10 +17,22 @@ export const taskboardSlice = createSlice({
         setTeamsList: ( state, { payload } ) => {
             state.teams = payload;
             state.status = 'success';
+        },
+
+        addNewUserToTeam: ( state, { payload } ) => {
+            state.teamUsers.push(payload);
+        },
+
+        removeUserFromTeam: ( state, { payload } ) => {
+            state.teamUsers = state.teamUsers.filter( id => id !== payload);
+        },
+
+        setUsersList: ( state, { payload } ) => {            
+            state.teamUsers = payload
         }
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { createTeam, processing, setTeamsList } = taskboardSlice.actions;
+export const { createTeam, processing, setTeamsList, removeUserFromTeam, addNewUserToTeam, setUsersList } = taskboardSlice.actions;

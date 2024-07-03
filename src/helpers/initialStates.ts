@@ -16,5 +16,6 @@ export const UiInitialState: TUiInitialState = {
 export const TaskboardInitialState: TTeamState = {
     status: 'not-processing',
     teams: [],
-    newTeam: null
+    newTeam: null,
+    teamUsers: []
 }

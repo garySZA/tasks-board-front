@@ -5,17 +5,31 @@ import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 
 import { ChipUser, EditMembersForm } from '../components';
 import { useNavigationOptions, useUiStore } from '../../hooks';
-import { useTeamMembers } from '../hooks';
+import { usePrefetch, useTaskboardStore, useTeamMembers } from '../hooks';
 import { ModalLayout } from '../layout';
+import { useEffect } from 'react';
 
 export const ProjectsView = () => {
     const { id } = useParams();    
-    const { data: members } = useTeamMembers( id ? parseInt( id ) : 1 );
+    const idTeam = id ? parseInt( id ) : 1
+    const { startSetUsersList } = useTaskboardStore();
+
+    const { data, isSuccess } = useTeamMembers( idTeam );
     const { goToBack } = useNavigationOptions();
     const { startShowModal } = useUiStore();
+    const { prefetchNoMemberUsers } = usePrefetch();
     
+    useEffect(() => {
+        isSuccess && data?.users && startSetUsersList( data.users );
+    }, [ isSuccess, data?.users ])
+    
+
     const handleEditMembers = () => {
         startShowModal();
+    }
+
+    const handleMouseHover = () => {
+        prefetchNoMemberUsers( idTeam );
     }
 
     return (
@@ -25,7 +39,7 @@ export const ProjectsView = () => {
                     item 
                     sx={{ my: 2 }}
                 >
-                    <Typography variant='h5' > Miembros de equipo: { members?.count } </Typography>
+                    <Typography variant='h5' > Miembros de equipo: { data?.count } </Typography>
                 </Grid>
                 <Grid 
                     item
@@ -37,6 +51,7 @@ export const ProjectsView = () => {
                         startIcon={ <SettingsTwoToneIcon /> }
                         fullWidth
                         onClick={ handleEditMembers }
+                        onMouseEnter={ handleMouseHover }
                     >
                         Gestionar Miembros
                     </Button>
@@ -62,7 +77,7 @@ export const ProjectsView = () => {
                 <Grid item xs={12}>
                     <Stack direction='row' spacing={ 2 } useFlexGap flexWrap='wrap' >
                         {
-                            members?.teamMembers.map( ({ user }) => (
+                            data?.users.map( ( user ) => (
                                 <ChipUser 
                                     nameUser={ user.name }
                                     variant='outlined'
@@ -75,7 +90,7 @@ export const ProjectsView = () => {
             </Grid>
             <Divider variant='middle' sx={{ my: 2 }}/>
             <ModalLayout>
-                <EditMembersForm members={ members ? members.teamMembers : [] }/>
+                <EditMembersForm users={ data ? data.users : [] } countMembers={ data ? data.count : 0 }/>
             </ModalLayout>
         </Box>
     )

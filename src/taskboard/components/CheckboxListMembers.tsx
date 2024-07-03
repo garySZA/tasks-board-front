@@ -1,27 +1,24 @@
 import { Avatar, Checkbox, List, ListItem, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
 import { TCheckboxListMembersProps } from '../../types';
-import { useState } from 'react';
+import { useTaskboardStore } from '../hooks';
 
-export const CheckboxListMembers = ({ members }: TCheckboxListMembersProps ) => {
-    const [checked, setChecked] = useState([1]);
+export const CheckboxListMembers = ({ users }: TCheckboxListMembersProps ) => {
+    const { teamUsers, addUserToTeam, removeUser } = useTaskboardStore();
     
     const handleToggle = ( userId: number  ) => () => {
-        const currentIndex = checked.indexOf( userId );
-        const newChecked = [ ...checked ];
+        const currentIndex = teamUsers.indexOf( userId );
 
         if( currentIndex === -1 ){
-            newChecked.push( userId );
+            addUserToTeam( userId );
         } else {
-            newChecked.splice( currentIndex, 1 );
+            removeUser( userId );
         }
-
-        setChecked( newChecked );
-    }
+    };
     
     return (
-        <List dense sx={{ width: '100%', bgcolor: 'background.paper' }}>
+        <List dense sx={{ width: '100%', bgcolor: 'background.paper', overflow: 'auto', maxHeight: 300 }}>
             {
-                members.map(( user ) => {
+                users.map(( user ) => {
                     const labelId = `checkbox-list-secondary-label-${ user.idUser }`;
                     return (
                         <ListItem
@@ -30,7 +27,7 @@ export const CheckboxListMembers = ({ members }: TCheckboxListMembersProps ) => 
                                 <Checkbox
                                     edge='end'
                                     onChange={ handleToggle( user.idUser ) }
-                                    checked={ checked.indexOf( user.idUser ) !== -1 }
+                                    checked={ teamUsers.indexOf( user.idUser ) !== -1 }
                                     inputProps={{ 'aria-labelledby': labelId }}
                                     color='secondary'
 
@@ -41,12 +38,12 @@ export const CheckboxListMembers = ({ members }: TCheckboxListMembersProps ) => 
                             <ListItemButton>
                                 <ListItemAvatar>
                                     {
-                                        user.user.imageUrl 
-                                        ? <Avatar alt='user avatar' src={ user.user.imageUrl } /> 
-                                        : <Avatar>{ user.user.name[0].toLocaleUpperCase() }</Avatar>
+                                        user.image 
+                                        ? <Avatar alt='user avatar' src={ user.image } /> 
+                                        : <Avatar>{ user.name[0].toLocaleUpperCase() }</Avatar>
                                     }
                                 </ListItemAvatar>
-                                <ListItemText id={ labelId } primary={ user.user.name } sx={{ color: 'secondary.main' }} />
+                                <ListItemText id={ labelId } primary={ user.name } sx={{ color: 'secondary.main' }} />
                             </ListItemButton>
                         </ListItem>
                     )

@@ -1,4 +1,4 @@
-import { Team, TeamMemberData } from "../interfaces";
+import { Team, UserInfo } from "../interfaces";
 
 export type ThemeState = {
     isActiveDarkMode: boolean
@@ -49,6 +49,7 @@ export type TTeamState = {
         nameTeam: string;
         description: string;
     } | null;
+    teamUsers: number[];
 }
 
 export type TInputVariant = 'standard' | 'filled' | 'outlined';
@@ -84,11 +85,12 @@ export type TChipUserProps = {
 }
 
 export type TEditMembersFormProps = {
-    members: TeamMemberData[];
+    users: UserInfo[];
+    countMembers: number;
 }
 
 export type TCheckboxListMembersProps = {
-    members: TeamMemberData[];
+    users: UserInfo[];
 }
 
 export type TAvatarUserProps = {

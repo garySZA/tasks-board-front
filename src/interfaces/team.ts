@@ -1,3 +1,5 @@
+import { UserInfo } from "./user";
+
 export interface TopLevel {
     ok:    boolean;
     teams: Team[];
@@ -28,18 +30,7 @@ export interface CreateTeamResponse {
     team: Team;
 }
 
-export interface MemberData {
-    idUser: number;
-    name: string;
-    imageUrl: string | null;
-}
-
-export interface TeamMemberData {
-    idUser: number;
-    user: MemberData;
-}
-
 export interface GetTeamMembersResponse {
     count: number;
-    teamMembers: TeamMemberData[];
+    users: UserInfo[];
 }
