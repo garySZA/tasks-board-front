@@ -4,16 +4,29 @@ import { useParams } from 'react-router-dom';
 import { TEditMembersFormProps } from '../../types';
 import { CheckboxListMembers } from './CheckboxListMembers';
 import { useUiStore } from '../../hooks';
-import { useTaskboardStore, useUsers } from '../hooks';
+import { useTaskboardStore, useTeamMembersMutation, useUsers } from '../hooks';
+import { getUsersId } from '../../helpers';
 
 export const EditMembersForm = ({ users, countMembers }: TEditMembersFormProps) => {
     const { id } = useParams();
     const { startHideModal } = useUiStore();
     const { data } = useUsers( { teamId: parseInt( id! )} );
     const { teamUsers } = useTaskboardStore();
+    const { updateTeamMembers } = useTeamMembersMutation();
 
-    const handleSaveUsers = () => {
+    const handleSaveUsers = async () => {
         console.log(teamUsers, 'save users');
+
+        await updateTeamMembers.mutate(
+            {
+                newUsers: teamUsers, 
+                oldUsers: getUsersId( users ), 
+                teamId: parseInt( id! )
+            }, {
+                onSuccess: () => {
+                    startHideModal();
+                }
+            })
     }
     
     return (

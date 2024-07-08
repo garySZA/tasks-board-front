@@ -1,5 +1,6 @@
 import { ArrowBackIos } from '@mui/icons-material';
 import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 
@@ -7,7 +8,6 @@ import { ChipUser, EditMembersForm } from '../components';
 import { useNavigationOptions, useUiStore } from '../../hooks';
 import { usePrefetch, useTaskboardStore, useTeamMembers } from '../hooks';
 import { ModalLayout } from '../layout';
-import { useEffect } from 'react';
 
 export const ProjectsView = () => {
     const { id } = useParams();    
