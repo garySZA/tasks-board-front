@@ -4,4 +4,5 @@ export * from './useTeams';
 export * from './useTeamMembers';
 export * from './useTeamMembersMutation';
 export * from './useTeamMutation';
+export * from './useTeamProjects';
 export * from './useUsers';

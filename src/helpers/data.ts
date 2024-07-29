@@ -1,4 +1,4 @@
-import { User } from '../interfaces';
+import { IProject, User } from '../interfaces';
 import { Team } from '../types';
 
 export const teams: Team[] = [
@@ -113,5 +113,40 @@ export const memberUsers: User[] = [
     {
         name: 'Tatiana',
         idUser: 7
+    },
+]
+
+export const projects: IProject[] = [
+    {
+        idProject: 1,
+        nameProject: 'Proyecto 1',
+        status: 1,
+        idTeam: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    },
+    {
+        idProject: 2,
+        nameProject: 'Proyecto 2',
+        status: 1,
+        idTeam: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    },
+    {
+        idProject: 3,
+        nameProject: 'Proyecto 3',
+        status: 1,
+        idTeam: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    },
+    {
+        idProject: 4,
+        nameProject: 'Proyecto 4',
+        status: 0,
+        idTeam: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
     },
 ]

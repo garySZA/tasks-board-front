@@ -1,4 +1,4 @@
-import { TLogin, TRegister, TTeam } from '../types';
+import { TLogin, TProject, TRegister, TTeam } from '../types';
 
 export const loginDefaultValues: TLogin = {
     email: 'gary@google.com',
@@ -15,4 +15,8 @@ export const registerDefaultValues: TRegister = {
 export const createTeamDefaultValues: TTeam = {
     nameTeam: '',
     description: ''
+}
+
+export const createProjectDefault: TProject = {
+    nameProject: ''
 }

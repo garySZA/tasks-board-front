@@ -6,7 +6,7 @@ import { TaskBoardLayout } from '../taskboard/layout';
 import { AuthLayout } from '../auth/layout';
 import { useEffect } from 'react';
 import { useThemeStore } from '../hooks';
-import { HomeView, ProjectView, ProjectsView } from '../taskboard/views';
+import { HomeView, ProjectView, ProjectsView, DashboardView } from '../taskboard/views';
 
 export const AppRouter = () => {
     const { status, checkAuthToken } = useAuthStore();
@@ -49,7 +49,11 @@ export const AppRouter = () => {
                 },
                 {
                     path: 'teams/:id',
-                    element: <ProjectsView />
+                    element: <ProjectsView />,
+                },
+                {
+                    path: 'teams/:id/project/:idProject',
+                    element: <DashboardView />,
                 },
                 {
                     path: 'project',

@@ -24,7 +24,13 @@ const createTeamSchema = yup.object({
     .min(4),
 }).required();
 
+const createProjectSchema = yup.object({
+    nameProject: yup.string().required('El campo es requerido')
+    .min(4),
+}).required();
+
 export {
+    createProjectSchema,
     createTeamSchema,
     loginSchema,
     registerSchema

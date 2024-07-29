@@ -1,6 +1,9 @@
 import { Box, Button, CardActions, CardContent, Card as CardMUI, Typography } from '@mui/material';
-import { TCard } from '../../types';
+import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+
+import { TCard } from '../../types';
+import { formatDateDistance } from '../../helpers';
 
 export const Card = ({ nameTeam, createdAt, idTeam}: TCard) => {
     const navigate = useNavigate();
@@ -14,7 +17,7 @@ export const Card = ({ nameTeam, createdAt, idTeam}: TCard) => {
             <CardMUI variant='outlined' sx={{ backgroundColor: 'primary.main' }}>
                 <CardContent>
                     <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
-                        { createdAt }
+                        { format( createdAt, 'dd/MM/yyyy' ) }, { formatDateDistance( createdAt ) }
                     </Typography>
                     <Typography variant='h5' component='div'>
                         { nameTeam }

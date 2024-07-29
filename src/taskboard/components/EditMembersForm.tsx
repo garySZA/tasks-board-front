@@ -15,8 +15,7 @@ export const EditMembersForm = ({ users, countMembers }: TEditMembersFormProps) 
     const { updateTeamMembers } = useTeamMembersMutation();
 
     const handleSaveUsers = async () => {
-        console.log(teamUsers, 'save users');
-
+        
         await updateTeamMembers.mutate(
             {
                 newUsers: teamUsers, 

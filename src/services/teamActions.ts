@@ -1,4 +1,5 @@
 import { taskboardApi } from '../api';
+import { IGetTeamProjectsResponse } from '../interfaces';
 import { CreateTeamResponse, GetTeamsOptions, TeamLike, GetTeamMembersResponse } from '../interfaces/team';
 import { TRequestData, TResponseUpdateTeamMembers } from '../types';
 
@@ -29,6 +30,12 @@ export const getTeamMembers = async ( teamId: number ) => {
 export const updateTeamMembers = async ( requestData: TRequestData ) => {
 
     const { data } = await taskboardApi.post<TResponseUpdateTeamMembers>('/teams/assign', requestData);
+
+    return data;
+}
+
+export const getTeamProjects = async ( teamId: number ) => {
+    const { data } = await taskboardApi.get<IGetTeamProjectsResponse>(`/projects/getTeamProjects/${ teamId }`);
 
     return data;
 }

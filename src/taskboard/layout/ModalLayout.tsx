@@ -1,12 +1,15 @@
 import { ReactNode, useEffect } from 'react';
 import Modal from 'react-modal';
 
-import { useThemeStore, useUiStore } from '../../hooks';
+import { useThemeStore } from '../../hooks';
 import { darkTheme, primaryTheme } from '../../theme';
 
 type ModalLayoutProps = {
-    children: ReactNode
+    children: ReactNode,
+    show: boolean,
+    handleCloseModal: () => void,
 }
+
 
 let customStyles = {
     content: {
@@ -14,32 +17,26 @@ let customStyles = {
         left: '50%',
         right: 'auto',
         bottom: 'auto',
-        width: '700px',
+        width: 'auto',
         minWidth: '500px',
         backgroundColor: '#fff'
     },
 }
-
-export const ModalLayout = ({ children }: ModalLayoutProps ) => {
-    const { isOpenedModal, startHideModal } = useUiStore();
+export const ModalLayout = ({ children, show, handleCloseModal }: ModalLayoutProps ) => {
     const { isActiveDarkMode } = useThemeStore();
-    
+
     useEffect(() => {
         customStyles = {
             content: {
                 ...customStyles.content,
-                backgroundColor: isActiveDarkMode ? darkTheme.palette.primary.main : primaryTheme.palette.primary.main
+                backgroundColor: isActiveDarkMode ? darkTheme.palette.primary.main : primaryTheme.palette.primary.main,
             }
         }
     }, [ isActiveDarkMode ])
-    
-    const handleCloseModal = () => {
-        startHideModal();
-    }
 
     return (
         <Modal
-            isOpen={ isOpenedModal }
+            isOpen={ show }
             onRequestClose={ handleCloseModal }
             style={ customStyles }
             className='modal'

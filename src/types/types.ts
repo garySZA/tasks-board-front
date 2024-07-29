@@ -21,6 +21,10 @@ export type TTeam = {
     description?: string;
 }
 
+export type TProject = {
+    nameProject: string;
+}
+
 export type TAuthState = 'checking' | 'authenticated' | 'not-authenticated';
 
 export type UserType = {
@@ -39,6 +43,7 @@ export type TUiInitialState = {
     isOpenedDrawer: boolean;
     isOpenedCreateTeamModal: boolean;
     isOpenedModal: boolean;
+    isOpenedCreateProjectModal: boolean;
 }
 
 export type TTeamState = {
@@ -79,7 +84,7 @@ export type TRegisterData = {
 export type TChipVariant = 'filled' | 'outlined'
 
 export type TChipUserProps = {
-    avatarUrl?: string;
+    avatarUrl?: string | null;
     nameUser: string;
     variant: TChipVariant;
 }
