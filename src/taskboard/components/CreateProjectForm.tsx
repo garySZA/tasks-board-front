@@ -1,23 +1,33 @@
 import { Button, Divider, Grid, Typography } from '@mui/material';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useParams } from 'react-router-dom';
 
 import { Input } from '../../components';
 import { IProjectLike } from '../../interfaces';
 import { createProjectDefault, createProjectSchema } from '../../helpers';
+import { useProjectMutation } from '../hooks';
 
 interface CreateProjectFromProps {
     handleCloseModal: () => void;
 }
 
 export const CreateProjectForm = ({ handleCloseModal }: CreateProjectFromProps) => {
+    const { mutation: projectMutation } = useProjectMutation();
     const form = useForm<IProjectLike>({
         defaultValues: createProjectDefault,
         resolver: yupResolver( createProjectSchema )
-    })
+    });
+    const { id } = useParams();
+    const idTeam = id ? parseInt(id) : 1;
 
-    const handleCreateProject = async () => {
-        console.log('create project form');
+    const handleCreateProject: SubmitHandler<IProjectLike> = async ( data ) => {
+        await projectMutation.mutate( { ...data, idTeam }, {
+            onSuccess: () => {
+                form.reset();
+                handleCloseModal();
+            },
+        });
     }
     
     return (

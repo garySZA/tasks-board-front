@@ -102,3 +102,13 @@ export type TAvatarUserProps = {
     url?: string;
     nameUser: string;
 }
+
+export type TDashboardColumnProps = {
+    title: string;
+}
+
+export type TTaskCardProps = {
+    title: string;
+    description: string;
+    createdAt: string;
+}

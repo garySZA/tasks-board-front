@@ -1,4 +1,5 @@
 export * from './usePrefetch';
+export * from './useProjectMutation';
 export * from './useTaskboardStore';
 export * from './useTeams';
 export * from './useTeamMembers';
