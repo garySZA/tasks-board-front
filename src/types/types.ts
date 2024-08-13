@@ -1,4 +1,4 @@
-import { Team, UserInfo } from "../interfaces";
+import { ITaskLike, Team, UserInfo } from "../interfaces";
 
 export type ThemeState = {
     isActiveDarkMode: boolean
@@ -105,10 +105,27 @@ export type TAvatarUserProps = {
 
 export type TDashboardColumnProps = {
     title: string;
+    count: number;
+    tasks: ITaskLike[];
+    columnId: string;
 }
 
 export type TTaskCardProps = {
+    id: string;
     title: string;
     description: string;
     createdAt: string;
+    index: number;
+}
+
+export type TColumn = {
+    id: string;
+    title: string;
+    taskIds: string[];
+}
+
+export type TInitialDataDashboard = {
+    tasks: ITaskLike[];
+    columns: TColumn[]
+    columnOrder: string[];
 }
