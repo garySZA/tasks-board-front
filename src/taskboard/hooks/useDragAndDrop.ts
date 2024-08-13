@@ -1,10 +1,11 @@
-import React from 'react';
 import { DropResult } from '@hello-pangea/dnd';
 
-import { TColumn, TInitialDataDashboard } from '../../types';
+import { TColumn } from '../../types';
+import { useDashboardStore } from './useDashBoardStore';
 
-export const useDragAndDrop = ( state: TInitialDataDashboard , setState: React.Dispatch<React.SetStateAction<TInitialDataDashboard>> ) => {
-    
+export const useDragAndDrop = () => {
+    const { startSetColumns, columns } = useDashboardStore();
+
     const onDragStart = () => {
         
     }
@@ -16,8 +17,8 @@ export const useDragAndDrop = ( state: TInitialDataDashboard , setState: React.D
 
         if( destination.droppableId === source.droppableId && destination.index === source.index ) return;
 
-        const startColumn = state.columns.find( element => element.id === source.droppableId );
-        const finishColumn = state.columns.find( element => element.id === destination.droppableId);
+        const startColumn = columns.find( element => element.id === source.droppableId );
+        const finishColumn = columns.find( element => element.id === destination.droppableId);
 
         if( !startColumn || !finishColumn ) return;
 
@@ -31,14 +32,10 @@ export const useDragAndDrop = ( state: TInitialDataDashboard , setState: React.D
                 taskIds: newTaskIds
             }
 
-            const newColumns = state.columns.map( col => col.id === newColumn.id ? newColumn : col );
+            const newColumns = columns.map( col => col.id === newColumn.id ? newColumn : col );
 
-            const newState: TInitialDataDashboard = {
-                ...state,
-                columns: newColumns
-            };
+            startSetColumns( newColumns );
 
-            setState( newState );
         } else {
             const startTaskIds = Array.from( startColumn.taskIds );
             startTaskIds.splice( source.index, 1 );
@@ -54,19 +51,15 @@ export const useDragAndDrop = ( state: TInitialDataDashboard , setState: React.D
                 taskIds: finishTaskIds
             };
 
-            const newColumns = state.columns.map( col => {
+            const newColumns = columns.map( col => {
                 if( col.id === newStartColumn.id ) return newStartColumn;
                 if( col.id === newFinishColumn.id ) return newFinishColumn;
 
                 return col;
             });
 
-            const newState: TInitialDataDashboard = {
-                ...state,
-                columns: newColumns
-            };
+            startSetColumns( newColumns );
 
-            setState( newState );
         }
     }
     

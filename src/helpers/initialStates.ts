@@ -1,4 +1,5 @@
-import { TAuthInitialState, TTeamState, TUiInitialState } from '../types';
+import { TAuthInitialState, TDashboardState, TTeamState, TUiInitialState } from '../types';
+import { initialDataDashboard, tasks } from './data';
 
 export const AuthInitialState: TAuthInitialState = {
     status: 'not-authenticated',
@@ -19,4 +20,15 @@ export const TaskboardInitialState: TTeamState = {
     teams: [],
     newTeam: null,
     teamUsers: []
+}
+
+export const DashboardInitialState: TDashboardState = {
+    tasks: tasks,
+    columns: initialDataDashboard.columns,
+    columnsOrder: ['1', '2', '3', '4', '5'],
+    backlogTasks: [],
+    QATasks: [],
+    toDoTasks: [],
+    progressTasks: [],
+    doneTasks: []
 }

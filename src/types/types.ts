@@ -57,6 +57,18 @@ export type TTeamState = {
     teamUsers: number[];
 }
 
+export type TDashboardState = {
+    tasks: ITaskLike[];
+    columns: TColumn[];
+    columnsOrder: string[];
+    doneTasks: ITaskLike[];
+    backlogTasks: ITaskLike[];
+    QATasks: ITaskLike[];
+    toDoTasks: ITaskLike[];
+    progressTasks: ITaskLike[];
+
+}
+
 export type TInputVariant = 'standard' | 'filled' | 'outlined';
 
 export type TTypeInput = 'text' | 'email'
@@ -129,3 +141,5 @@ export type TInitialDataDashboard = {
     columns: TColumn[]
     columnOrder: string[];
 }
+
+export type TTasksStatus = 0 | 1 | 2 | 3 | 4;

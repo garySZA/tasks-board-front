@@ -2,14 +2,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import { authSlice } from './auth';
 import { themeSlice } from './theme';
 import { uiSlice } from './ui';
-import { taskboardSlice } from './taskboard';
+import { dashboardSlice, taskboardSlice } from './taskboard';
 
 export const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
+        dashboard: dashboardSlice.reducer,
+        taskboard: taskboardSlice.reducer,
         theme: themeSlice.reducer,
         ui: uiSlice.reducer,
-        taskboard: taskboardSlice.reducer
     }
 });
 

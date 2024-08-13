@@ -1,5 +1,6 @@
 import { IProject, ITaskLike, User } from '../interfaces';
 import { Team, TInitialDataDashboard } from '../types';
+import { filterTaskIds } from './filterTasks';
 
 export const teams: Team[] = [
     {
@@ -216,27 +217,27 @@ export const initialDataDashboard: TInitialDataDashboard = {
         {
             id: '1',
             title: 'Backlog',
-            taskIds: ['1', '2', '3', '4', '5', '6', '7', '8'],
+            taskIds: filterTaskIds( tasks, 0 ),
         },
         {
             id: '2',
             title: 'To Do',
-            taskIds: [],
+            taskIds: filterTaskIds( tasks, 1 ),
         },
         {
             id: '3',
             title: 'Progress',
-            taskIds: [],
+            taskIds: filterTaskIds( tasks, 2 ),
         },
         {
             id: '4',
             title: 'QA',
-            taskIds: [],
+            taskIds: filterTaskIds( tasks, 3 ),
         },
         {
             id: '5',
             title: 'Done',
-            taskIds: [],
+            taskIds: filterTaskIds( tasks, 4 ),
         },
     ],
     columnOrder: [ '1', '2', '3', '4', '5' ]

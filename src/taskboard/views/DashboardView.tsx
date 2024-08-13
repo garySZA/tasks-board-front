@@ -1,15 +1,15 @@
 import { Box, Grid } from '@mui/material';
 import { DragDropContext } from '@hello-pangea/dnd';
-import { useState } from 'react';
 
 import { DashboardColumn } from '../components';
-import { initialDataDashboard } from '../../helpers';
-import { useDragAndDrop } from '../hooks';
-import { ITaskLike } from '../../interfaces/IGetCardsRequest';
+import { useDashboardStore, useDragAndDrop } from '../hooks';
+import { ITaskLike } from '../../interfaces/';
 
 export const DashboardView = () => {
-    const [state, setState] = useState( initialDataDashboard );
-    const { onDragEnd, onDragStart } = useDragAndDrop( state, setState );
+    const { tasks: tasksList, columns, columnsOrder, startGetTasks } = useDashboardStore();
+    const { onDragEnd, onDragStart } = useDragAndDrop();
+
+    startGetTasks();
 
     return (
         <Box mt={2}>
@@ -19,11 +19,11 @@ export const DashboardView = () => {
                     onDragStart={ onDragStart }
                 >
                     {
-                        state.columnOrder.map( columnId => {
-                            const column = state.columns.find( element => element.id === columnId );
+                        columnsOrder.map( columnId => {
+                            const column = columns.find( element => element.id === columnId );
 
                             if( column ){
-                                const tasks = column.taskIds.map( taskId => state.tasks.find( task => task.id === taskId ))
+                                const tasks = column.taskIds.map( taskId => tasksList.find( task => task.id === taskId ))
                                                 .filter(( task ): task is ITaskLike => task !== undefined )
 
                                 return tasks && <DashboardColumn key={ column?.id } columnId={ column.id } tasks={ tasks } title={ column.title } count={ tasks.length } />
