@@ -9,7 +9,6 @@ export const useTaskboardStore = () => {
     const { newTeam, teams, status, teamUsers } = useAppSelector(( state: RootState ) => state.taskboard );
     const dispatch = useAppDispatch();
 
-
     const startCreateTeam = async ( dataTeam: TeamLike ) => {
         dispatch( processing() );
 

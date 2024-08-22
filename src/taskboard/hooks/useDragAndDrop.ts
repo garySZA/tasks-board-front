@@ -12,7 +12,7 @@ export const useDragAndDrop = () => {
 
     const onDragEnd = ( result: DropResult ) => {
         const { destination, source, draggableId } = result;
-
+        console.log(result, 'result')
         if( !destination ) return;
 
         if( destination.droppableId === source.droppableId && destination.index === source.index ) return;

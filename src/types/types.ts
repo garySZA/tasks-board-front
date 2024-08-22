@@ -1,4 +1,4 @@
-import { ITaskLike, Team, UserInfo } from "../interfaces";
+import { ITask, ITaskLike, Team, UserInfo } from '../interfaces';
 
 export type ThemeState = {
     isActiveDarkMode: boolean
@@ -46,6 +46,8 @@ export type TUiInitialState = {
     isOpenedCreateProjectModal: boolean;
 }
 
+type status = 'processing' | 'success' | 'error' | 'not-processing';
+
 export type TTeamState = {
     status: 'processing' | 'success' | 'error' | 'not-processing';
     teams: Team[];
@@ -58,14 +60,15 @@ export type TTeamState = {
 }
 
 export type TDashboardState = {
+    status: status;
     tasks: ITaskLike[];
     columns: TColumn[];
     columnsOrder: string[];
-    doneTasks: ITaskLike[];
-    backlogTasks: ITaskLike[];
-    QATasks: ITaskLike[];
-    toDoTasks: ITaskLike[];
-    progressTasks: ITaskLike[];
+    doneColumn: TColumn | null;
+    backlogColumn: TColumn | null;
+    QAColumn: TColumn | null;
+    toDoColumn: TColumn | null;
+    progressColumn: TColumn | null;
 
 }
 
@@ -118,7 +121,7 @@ export type TAvatarUserProps = {
 export type TDashboardColumnProps = {
     title: string;
     count: number;
-    tasks: ITaskLike[];
+    tasks: ITask[];
     columnId: string;
 }
 

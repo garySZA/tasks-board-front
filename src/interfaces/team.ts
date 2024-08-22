@@ -1,22 +1,22 @@
-import { UserInfo } from "./user";
+import { UserInfo } from './user';
 
 export interface TopLevel {
-    ok:    boolean;
+    ok: boolean;
     teams: Team[];
 }
 
 export interface Team {
-    idTeam:      number;
-    nameTeam:     string;
+    idTeam: number;
+    nameTeam: string;
     description?: string;
-    status?:      number;
-    creatorId?:   number;
-    createdAt:   string;
-    updatedAt?:   string;
+    status?: number;
+    creatorId?: number;
+    createdAt: string;
+    updatedAt?: string;
 }
 
 export interface TeamLike {
-    nameTeam:     string;
+    nameTeam: string;
     description?: string;
 }
 
@@ -33,4 +33,19 @@ export interface CreateTeamResponse {
 export interface GetTeamMembersResponse {
     count: number;
     users: UserInfo[];
+}
+
+export interface ITasksOptions {
+    limit: number;
+    page: number;
+    idColumn: number;
+    idProject: number;
+}
+
+export interface IGetTaskOptions {
+    backlog: ITasksOptions,
+    todo: ITasksOptions,
+    progress: ITasksOptions,
+    qa: ITasksOptions,
+    done: ITasksOptions,
 }

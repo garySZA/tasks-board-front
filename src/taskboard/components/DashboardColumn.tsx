@@ -24,7 +24,7 @@ export const DashboardColumn = ({ columnId, title, count, tasks }: TDashboardCol
                                 >
                                     {
                                         tasks.map( ( task, index ) => (
-                                            <TaskCard key={ task.id } index={ index } id={ task.id } title={ task.title } description={ task.description } createdAt={ task.createdAt } />
+                                            <TaskCard key={ task.idCard } index={ index } id={ task.idCard } title={ task.cardTitle } description={ task.description } createdAt={ task.createdAt } />
                                         ))
                                     }
                                     { provided.placeholder }

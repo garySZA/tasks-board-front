@@ -1,10 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { DashboardInitialState as initialState  } from '../../helpers';
+import { DashboardInitialState as initialState } from '../../helpers';
 
 export const dashboardSlice = createSlice({
     name: 'name',
     initialState,
     reducers: {
+        onChange: ( state ) => {
+            state.status = 'processing';
+        },
+
+        onChangeCompleted: ( state ) => {
+            state.status = 'success';
+        },
+        
         getTasks: (state, { payload } ) => {
             state.tasks = payload;
         },
@@ -17,36 +25,37 @@ export const dashboardSlice = createSlice({
             state.columnsOrder = payload;
         },
 
-        setBacklogTasks: (state, { payload } ) => {
-            state.backlogTasks = payload;
+        setBacklogColumn: (state, { payload } ) => {
+            state.backlogColumn = payload;
         },
 
-        setToDoTasks: (state, { payload } ) => {
-            state.toDoTasks = payload;
+        setToDoColumn: (state, { payload } ) => {
+            state.toDoColumn = payload;
         },
 
-        setProgressTasks: (state, { payload } ) => {
-            state.progressTasks = payload;
+        setProgressColumn: (state, { payload } ) => {
+            state.progressColumn = payload;
         },
 
-        setQATasks: (state, { payload } ) => {
-            state.QATasks = payload;
+        setQAColumn: (state, { payload } ) => {
+            state.QAColumn = payload;
         },
 
-        setDoneTasks: (state, { payload } ) => {
-            state.doneTasks = payload;
+        setDoneColumn: (state, { payload } ) => {
+            state.doneColumn = payload;
         },
     }
 });
 
-
 export const { 
     getTasks, 
-    setBacklogTasks,
+    onChange,
+    onChangeCompleted,
+    setBacklogColumn,
     setColumns,
     setColumnsOrder,
-    setDoneTasks,
-    setProgressTasks,
-    setQATasks,
-    setToDoTasks,
+    setDoneColumn,
+    setProgressColumn,
+    setQAColumn,
+    setToDoColumn,
 } = dashboardSlice.actions;

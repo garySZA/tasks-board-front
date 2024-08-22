@@ -2,14 +2,12 @@ import { Box, Grid } from '@mui/material';
 import { DragDropContext } from '@hello-pangea/dnd';
 
 import { DashboardColumn } from '../components';
-import { useDashboardStore, useDragAndDrop } from '../hooks';
-import { ITaskLike } from '../../interfaces/';
+import { useDragAndDrop, useTasks } from '../hooks';
+import { queryOptions } from '../../helpers';
 
 export const DashboardView = () => {
-    const { tasks: tasksList, columns, columnsOrder, startGetTasks } = useDashboardStore();
     const { onDragEnd, onDragStart } = useDragAndDrop();
-
-    startGetTasks();
+    const { dataBacklog, dataDone, dataProgress, dataQA, dataTodo } = useTasks( queryOptions );
 
     return (
         <Box mt={2}>
@@ -19,16 +17,24 @@ export const DashboardView = () => {
                     onDragStart={ onDragStart }
                 >
                     {
-                        columnsOrder.map( columnId => {
-                            const column = columns.find( element => element.id === columnId );
+                        dataBacklog && (<DashboardColumn key={ dataBacklog.id } columnId={ dataBacklog.id } tasks={ dataBacklog.tasks } title='Backlog' count={ dataBacklog.count } />)
+                        
+                    }
+                    {
+                        dataTodo && (<DashboardColumn key={ dataTodo.id } columnId={ dataTodo.id } tasks={ dataTodo.tasks } title='To Do' count={ dataTodo.count } />)
 
-                            if( column ){
-                                const tasks = column.taskIds.map( taskId => tasksList.find( task => task.id === taskId ))
-                                                .filter(( task ): task is ITaskLike => task !== undefined )
+                    }
+                    {
+                        dataProgress && (<DashboardColumn key={ dataProgress.id } columnId={ dataProgress.id } tasks={ dataProgress.tasks } title='Progress' count={ dataProgress.count } />)
+                        
+                    }
+                    {
+                        dataQA && (<DashboardColumn key={ dataQA.id } columnId={ dataQA.id } tasks={ dataQA.tasks } title='QA' count={ dataQA.count } />)
 
-                                return tasks && <DashboardColumn key={ column?.id } columnId={ column.id } tasks={ tasks } title={ column.title } count={ tasks.length } />
-                            }
-                        } )
+                    }
+                    {
+                        dataDone && (<DashboardColumn key={ dataDone.id } columnId={ dataDone.id } tasks={ dataDone.tasks } title='Done' count={ dataDone.count } />)
+
                     }
                 </DragDropContext>
             </Grid>

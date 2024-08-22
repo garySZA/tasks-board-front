@@ -1,10 +1,14 @@
+import { getColumnTitle, getTasksIds } from '../../helpers';
 import { useAppDispatch, useAppSelector } from '../../hooks'
+import { IGetTasksResponse } from '../../interfaces';
 import { RootState } from '../../store';
-import { setColumns } from '../../store/taskboard';
+import { onChange, onChangeCompleted, setBacklogColumn, setColumns, setDoneColumn, setProgressColumn, setQAColumn, setToDoColumn } from '../../store/taskboard';
 import { TColumn } from '../../types';
 
+//TODO: ya se tienen cargadas las columnas de manera individual, ver la manera de setear al column del state, tal vez usando useEfect cuando todas las columnas dejen de ser null;
+
 export const useDashboardStore = () => {
-    const { tasks, columns, columnsOrder } = useAppSelector(( state: RootState ) => state.dashboard )
+    const { tasks, columns, columnsOrder, status } = useAppSelector(( state: RootState ) => state.dashboard )
     const dispatch = useAppDispatch();
 
     //* método para llamar a servicios y obtener la lista de tareas
@@ -23,15 +27,71 @@ export const useDashboardStore = () => {
         dispatch( setColumns( newColumns ) );
     }
 
+    const startAddColumn = ( data: IGetTasksResponse ) => {
+        dispatch( onChange() );
+        
+        const { tasks, id } = data;
+
+        const tasksIds = getTasksIds( tasks );
+        const columnTitle = getColumnTitle( id );
+        const columnOrder = data.id
+        
+        const newColumn = { tasksIds, columnTitle, columnOrder }
+
+        console.log(columns);
+
+        const newColumns = [...columns, newColumn ];
+        dispatch( setColumns( newColumns ) );
+        dispatch( onChangeCompleted() );
+    }
+
+    const startSetColumn = ( data: IGetTasksResponse ) => {
+        const idValue = data.id.toString();
+
+        const { tasks, id } = data;
+
+        const tasksIds = getTasksIds( tasks );
+        const columnTitle = getColumnTitle( id );
+        const columnOrder = data.id
+        
+        switch ( idValue ) {
+            case '1':
+                dispatch( setBacklogColumn({ tasksIds, columnTitle, columnOrder }) )
+                break;
+        
+            case '2':
+                dispatch( setToDoColumn({ tasksIds, columnTitle, columnOrder }) )
+                break;
+
+            case '3':
+                dispatch( setProgressColumn({ tasksIds, columnTitle, columnOrder }) )
+                break;
+
+            case '4':
+                dispatch( setQAColumn({ tasksIds, columnTitle, columnOrder }) )
+                break;
+
+            case '5':
+                dispatch( setDoneColumn({ tasksIds: [], columnTitle, columnOrder }) )
+                break;
+
+            default:
+                break;
+        }
+    }
+
     return {
         //* Props
         tasks,
         columns,
         columnsOrder,
+        status,
 
         //* Methods
+        startAddColumn,
         startGetTasks,
         startChangeTaskStatus,
+        startSetColumn,
         startSetColumns,
     }
 }

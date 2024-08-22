@@ -18,7 +18,7 @@ export const TaskCard = ({ id, index, title, description, createdAt }: TTaskCard
 
     return (
         <Grid item mb={ 2 }>
-            <Draggable draggableId={ id } index={ index } >
+            <Draggable draggableId={ id.toString() } index={ index } >
                 {
                     ( provided, snapshot ) => (
                         <Card 
