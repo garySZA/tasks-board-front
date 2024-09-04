@@ -5,7 +5,7 @@ import { useTaskboardStore } from '../hooks';
 export const CheckboxListMembers = ({ users }: TCheckboxListMembersProps ) => {
     const { teamUsers, addUserToTeam, removeUser } = useTaskboardStore();
     
-    const handleToggle = ( userId: number  ) => () => {
+    const handleToggle = ( userId: number ) => () => {
         const currentIndex = teamUsers.indexOf( userId );
 
         if( currentIndex === -1 ){

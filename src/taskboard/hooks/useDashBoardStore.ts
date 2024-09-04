@@ -8,7 +8,7 @@ import { TColumn } from '../../types';
 //TODO: ya se tienen cargadas las columnas de manera individual, ver la manera de setear al column del state, tal vez usando useEfect cuando todas las columnas dejen de ser null;
 
 export const useDashboardStore = () => {
-    const { tasks, columns, columnsOrder, status } = useAppSelector(( state: RootState ) => state.dashboard )
+    const { tasks, columns, columnsOrder, status, backlogColumn, toDoColumn, progressColumn, QAColumn, doneColumn } = useAppSelector(( state: RootState ) => state.dashboard )
     const dispatch = useAppDispatch();
 
     //* método para llamar a servicios y obtener la lista de tareas
@@ -56,7 +56,7 @@ export const useDashboardStore = () => {
         
         switch ( idValue ) {
             case '1':
-                dispatch( setBacklogColumn({ tasksIds, columnTitle, columnOrder }) )
+                dispatch( setBacklogColumn({ tasksIds, title: columnTitle, id: columnOrder }) )
                 break;
         
             case '2':
@@ -86,6 +86,12 @@ export const useDashboardStore = () => {
         columns,
         columnsOrder,
         status,
+
+        backlogColumn,
+        toDoColumn,
+        progressColumn,
+        QAColumn,
+        doneColumn,
 
         //* Methods
         startAddColumn,

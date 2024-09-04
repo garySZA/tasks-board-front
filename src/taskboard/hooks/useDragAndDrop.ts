@@ -5,6 +5,7 @@ import { useDashboardStore } from './useDashBoardStore';
 
 export const useDragAndDrop = () => {
     const { startSetColumns, columns } = useDashboardStore();
+    const { backlogColumn } = useDashboardStore();
 
     const onDragStart = () => {
         
@@ -12,10 +13,13 @@ export const useDragAndDrop = () => {
 
     const onDragEnd = ( result: DropResult ) => {
         const { destination, source, draggableId } = result;
-        console.log(result, 'result')
+
         if( !destination ) return;
 
         if( destination.droppableId === source.droppableId && destination.index === source.index ) return;
+
+        // TODO: implementar el store a partir de este punto
+        console.log(backlogColumn, 'backlog column');
 
         const startColumn = columns.find( element => element.id === source.droppableId );
         const finishColumn = columns.find( element => element.id === destination.droppableId);

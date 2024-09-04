@@ -28,7 +28,6 @@ export const getColumnTitle = ( id: string ) => {
 }
 
 export const getTasksIds = ( list: ITask[] ) => {
-    console.log(list, 'done')
     return list.map( task => task.idCard );
 }
 
