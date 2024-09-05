@@ -44,6 +44,7 @@ export type TUiInitialState = {
     isOpenedCreateTeamModal: boolean;
     isOpenedModal: boolean;
     isOpenedCreateProjectModal: boolean;
+    isOpenedCreateTaskModal: boolean;
 }
 
 type status = 'processing' | 'success' | 'error' | 'not-processing';
@@ -69,10 +70,15 @@ export type TDashboardState = {
     QAColumn: TColumn | null;
     toDoColumn: TColumn | null;
     progressColumn: TColumn | null;
+    columnIdToCreateTask: number;
 
 }
 
 export type TInputVariant = 'standard' | 'filled' | 'outlined';
+
+export type TTextAreaVariant = 'solid' | 'soft' | 'outlined' | 'plain';
+
+export type TTextAreaSize = 'sm' | 'md' | 'lg';
 
 export type TTypeInput = 'text' | 'email'
 
@@ -83,6 +89,7 @@ export type TTextfieldProps = {
     variant: TInputVariant
     placeholder: string;
     fullWidth?: boolean;
+    multiline?: boolean;
 }
 
 export type TLoginData = {
@@ -146,3 +153,8 @@ export type TInitialDataDashboard = {
 }
 
 export type TTasksStatus = 0 | 1 | 2 | 3 | 4;
+
+export type TTaskLike = {
+    cardTitle: string;
+    description: string;
+}

@@ -23,7 +23,6 @@ export const ProjectsView = () => {
     useEffect(() => {
         isSuccess && data?.users && startSetUsersList( data.users );
     }, [ isSuccess, data?.users ])
-    
 
     const handleEditMembers = () => {
         startShowModal();

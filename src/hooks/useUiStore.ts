@@ -1,9 +1,9 @@
 import { RootState } from '../store';
-import { closeDrawer, hideCreateProjectModal, hideCreateTeamModal, hideModal, openDrawer, showCreateProjectModal, showCreateTeamModal, showModal } from '../store/ui';
+import { closeDrawer, hideCreateProjectModal, hideCreateTaskModal, hideCreateTeamModal, hideModal, openDrawer, showCreateProjectModal, showCreateTaskModal, showCreateTeamModal, showModal } from '../store/ui';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 
 export const useUiStore = () => {
-    const { isOpenedDrawer, isOpenedCreateTeamModal, isOpenedModal, isOpenedCreateProjectModal } = useAppSelector(( state: RootState ) => state.ui );
+    const { isOpenedDrawer, isOpenedCreateTeamModal, isOpenedModal, isOpenedCreateProjectModal, isOpenedCreateTaskModal} = useAppSelector(( state: RootState ) => state.ui );
     const dispatch = useAppDispatch();
 
     const startShowDrawer = () => {
@@ -38,20 +38,31 @@ export const useUiStore = () => {
         dispatch( hideCreateProjectModal() );
     }
 
+    const startShowCreateTaskModal = () => {
+        dispatch( showCreateTaskModal() );
+    }
+
+    const startHideCreateTaskModal = () => {
+        dispatch( hideCreateTaskModal() );
+    }
+
     return {
         //* Variables
-        open: isOpenedDrawer,
         closed: !isOpenedDrawer,
+        isOpenedCreateProjectModal,
+        isOpenedCreateTaskModal,
         isOpenedCreateTeamModal,
         isOpenedModal,
-        isOpenedCreateProjectModal,
+        open: isOpenedDrawer,
 
         //* Methods
         startHideCreateProjectModal,
+        startHideCreateTaskModal,
         startHideCreateTeamModal,
         startHideDrawer,
         startHideModal,
         startShowCreateProjectModal,
+        startShowCreateTaskModal,
         startShowCreateTeamModal,
         startShowDrawer,
         startShowModal,

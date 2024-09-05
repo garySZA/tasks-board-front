@@ -9,7 +9,6 @@ import { darkTheme } from './darkTheme';
 
 export const AppTheme = ({ children }: { children: ReactNode }) => {
     const { isActiveDarkMode } = useAppSelector(( state: RootState ) => state.theme )
-    
     return (
         <ThemeProvider theme={ isActiveDarkMode ? darkTheme : primaryTheme }>
             <CssBaseline />

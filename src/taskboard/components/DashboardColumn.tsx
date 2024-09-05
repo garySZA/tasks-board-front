@@ -1,13 +1,19 @@
 import { Divider, Grid, IconButton, List, Paper, Stack, Typography } from '@mui/material';
-import { TDashboardColumnProps } from '../../types';
-import { TaskCard } from './TaskCard';
 import { Droppable } from '@hello-pangea/dnd';
+
 import { AddBox } from '@mui/icons-material';
+import { TaskCard } from './TaskCard';
+import { TDashboardColumnProps } from '../../types';
+import { useDashboardStore } from '../hooks';
+import { useUiStore } from '../../hooks';
 
 export const DashboardColumn = ({ columnId, title, count, tasks }: TDashboardColumnProps) => {
-    
+    const { startSetColumnIdToCreateTask } = useDashboardStore();
+    const { startShowCreateTaskModal } = useUiStore();
+
     const handleCreateTask = () => {
-        console.log('crear una nueva tarea');
+        startSetColumnIdToCreateTask( parseInt( columnId ) );
+        startShowCreateTaskModal();
     }
 
     return (
@@ -27,7 +33,6 @@ export const DashboardColumn = ({ columnId, title, count, tasks }: TDashboardCol
                     </Stack>
                     <Divider sx={{ mb: 2 }} />
                     <List
-                        dense
                         sx={{ width: '100%', overflow: 'auto', maxHeight: 'calc(100vh - 165px)' }}
                     >
                         <Droppable droppableId={ columnId } >

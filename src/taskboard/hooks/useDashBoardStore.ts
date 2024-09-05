@@ -2,13 +2,13 @@ import { getColumnTitle, getTasksIds } from '../../helpers';
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { IGetTasksResponse } from '../../interfaces';
 import { RootState } from '../../store';
-import { onChange, onChangeCompleted, setBacklogColumn, setColumns, setDoneColumn, setProgressColumn, setQAColumn, setToDoColumn } from '../../store/taskboard';
+import { onChange, onChangeCompleted, setBacklogColumn, setColumnIdToCreateTask, setColumns, setDoneColumn, setProgressColumn, setQAColumn, setToDoColumn } from '../../store/taskboard';
 import { TColumn } from '../../types';
 
 //TODO: ya se tienen cargadas las columnas de manera individual, ver la manera de setear al column del state, tal vez usando useEfect cuando todas las columnas dejen de ser null;
 
 export const useDashboardStore = () => {
-    const { tasks, columns, columnsOrder, status, backlogColumn, toDoColumn, progressColumn, QAColumn, doneColumn } = useAppSelector(( state: RootState ) => state.dashboard )
+    const { tasks, columns, columnsOrder, status, backlogColumn, toDoColumn, progressColumn, QAColumn, doneColumn, columnIdToCreateTask } = useAppSelector(( state: RootState ) => state.dashboard )
     const dispatch = useAppDispatch();
 
     //* método para llamar a servicios y obtener la lista de tareas
@@ -80,12 +80,17 @@ export const useDashboardStore = () => {
         }
     }
 
+    const startSetColumnIdToCreateTask = ( id: number ) => {
+        dispatch( setColumnIdToCreateTask(id) );
+    }
+
     return {
         //* Props
-        tasks,
+        columnIdToCreateTask,
         columns,
         columnsOrder,
         status,
+        tasks,
 
         backlogColumn,
         toDoColumn,
@@ -95,9 +100,10 @@ export const useDashboardStore = () => {
 
         //* Methods
         startAddColumn,
-        startGetTasks,
         startChangeTaskStatus,
+        startGetTasks,
         startSetColumn,
+        startSetColumnIdToCreateTask,
         startSetColumns,
     }
 }

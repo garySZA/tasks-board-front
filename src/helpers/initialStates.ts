@@ -12,7 +12,8 @@ export const UiInitialState: TUiInitialState = {
     isOpenedDrawer: false,
     isOpenedCreateTeamModal: false,
     isOpenedModal: false,
-    isOpenedCreateProjectModal: false
+    isOpenedCreateProjectModal: false,
+    isOpenedCreateTaskModal: false
 }
 
 export const TaskboardInitialState: TTeamState = {
@@ -32,4 +33,5 @@ export const DashboardInitialState: TDashboardState = {
     toDoColumn: null,
     progressColumn: null,
     doneColumn: null,
+    columnIdToCreateTask: 0,
 }

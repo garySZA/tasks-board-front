@@ -3,6 +3,7 @@ export * from './Card';
 export * from './CheckboxListMembers';
 export * from './ChipUser';
 export * from './CreateProjectForm';
+export * from './CreateTaskForm';
 export * from './CreateTeamModal';
 export * from './DashboardColumn';
 export * from './EditMembersForm';

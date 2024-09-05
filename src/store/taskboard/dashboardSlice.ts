@@ -44,6 +44,10 @@ export const dashboardSlice = createSlice({
         setDoneColumn: (state, { payload } ) => {
             state.doneColumn = payload;
         },
+
+        setColumnIdToCreateTask: ( state, { payload } ) => {
+            state.columnIdToCreateTask = payload;
+        },
     }
 });
 
@@ -52,6 +56,7 @@ export const {
     onChange,
     onChangeCompleted,
     setBacklogColumn,
+    setColumnIdToCreateTask,
     setColumns,
     setColumnsOrder,
     setDoneColumn,
