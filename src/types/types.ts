@@ -158,3 +158,9 @@ export type TTaskLike = {
     cardTitle: string;
     description: string;
 }
+
+export type TTaskData = {
+    task: TTaskLike;
+    status: number;
+    idProject: number;
+}

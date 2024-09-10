@@ -1,22 +1,35 @@
 import { Button, Divider, Grid, Typography } from '@mui/material';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { createTaskDefaultValues, createTaskSchema } from '../../helpers';
 import { TTaskLike } from '../../types';
 import { Input } from '../../components';
+import { useDashboardStore, useTaskMutation } from '../hooks';
+import { useParams } from 'react-router-dom';
 
 interface CreateTaskProps {
     handleCloseModal: () => void;
 }
 
 export const CreateTaskForm = ({ handleCloseModal }: CreateTaskProps) => {
+    const { mutation: taskMutation } = useTaskMutation();
     const form = useForm<TTaskLike>({
         defaultValues: createTaskDefaultValues,
         resolver: yupResolver( createTaskSchema )
     });
 
-    const handleCreateTask = () => {}
+    const { id } = useParams();
+    const { columnIdToCreateTask } = useDashboardStore();
+
+    const handleCreateTask: SubmitHandler<TTaskLike> = async ( data ) => {
+        await taskMutation.mutate({ task: data, idProject: parseInt(id!), status: columnIdToCreateTask }, {
+            onSuccess: () => {
+                form.reset();
+                handleCloseModal();
+            },
+        })
+    }
 
     return (
         <>
@@ -31,7 +44,7 @@ export const CreateTaskForm = ({ handleCloseModal }: CreateTaskProps) => {
                             <Input 
                                 type='text'
                                 label='Título de tarjeta'
-                                name='title'
+                                name='cardTitle'
                                 placeholder='implementar login'
                                 variant='standard'
                                 fullWidth

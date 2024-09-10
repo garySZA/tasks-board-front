@@ -3,6 +3,7 @@ export * from './useDragAndDrop';
 export * from './usePrefetch';
 export * from './useProjectMutation';
 export * from './useTaskboardStore';
+export * from './useTaskMutation';
 export * from './useTasks';
 export * from './useTeamMembers';
 export * from './useTeamMembersMutation';

@@ -34,35 +34,35 @@ export const getTasksIds = ( list: ITask[] ) => {
 export const queryOptions: IGetTaskOptions ={
     backlog: {
         idColumn: 1,
-        limit: 5,
+        limit: 10,
         page: 1,
         idProject: 3
     },
 
     todo: {
         idColumn: 2,
-        limit: 5,
+        limit: 10,
         page: 1,
         idProject: 3
     },
 
     progress: {
         idColumn: 3,
-        limit: 5,
+        limit: 10,
         page: 1,
         idProject: 3
     },
 
     qa: {
         idColumn: 4,
-        limit: 5,
+        limit: 10,
         page: 1,
         idProject: 3
     },
 
     done: {
         idColumn: 5,
-        limit: 5,
+        limit: 10,
         page: 1,
         idProject: 3
     }

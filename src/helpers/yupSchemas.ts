@@ -30,7 +30,7 @@ const createProjectSchema = yup.object({
 }).required();
 
 const createTaskSchema = yup.object({
-    cardTitle: yup.string().required('El título es requerido').min(4, 'Debe contener como mínimo 4 letras'),
+    cardTitle: yup.string().required('El título es requerido').min(6, 'Debe contener como mínimo 6 letras'),
     description: yup.string().required('La descripción es requerida')
 
 })

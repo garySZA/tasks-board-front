@@ -1,5 +1,4 @@
-import { TLogin, TProject, TRegister, TTeam } from '../types';
-import { ITaskLike } from '../interfaces';
+import { TLogin, TProject, TRegister, TTaskLike, TTeam } from '../types';
 
 export const loginDefaultValues: TLogin = {
     email: 'gary@google.com',
@@ -22,10 +21,7 @@ export const createProjectDefault: TProject = {
     nameProject: ''
 }
 
-export const createTaskDefaultValues: ITaskLike = {
-    title: '',
+export const createTaskDefaultValues: TTaskLike = {
+    cardTitle: '',
     description: '',
-    status: 1,
-    id: '1',
-    createdAt: new Date().toISOString(),
 }
