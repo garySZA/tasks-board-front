@@ -2,6 +2,8 @@ export * from './useDashBoardStore';
 export * from './useDragAndDrop';
 export * from './usePrefetch';
 export * from './useProjectMutation';
+export * from './useSetDashboardColumn';
+export * from './useSetNotify';
 export * from './useTaskboardStore';
 export * from './useTaskMutation';
 export * from './useTasks';

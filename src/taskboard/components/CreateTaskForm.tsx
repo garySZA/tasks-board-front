@@ -19,11 +19,11 @@ export const CreateTaskForm = ({ handleCloseModal }: CreateTaskProps) => {
         resolver: yupResolver( createTaskSchema )
     });
 
-    const { id } = useParams();
+    const { idProject } = useParams();
     const { columnIdToCreateTask } = useDashboardStore();
 
     const handleCreateTask: SubmitHandler<TTaskLike> = async ( data ) => {
-        await taskMutation.mutate({ task: data, idProject: parseInt(id!), status: columnIdToCreateTask }, {
+        await taskMutation.mutate({ task: data, idProject: parseInt(idProject!), status: columnIdToCreateTask }, {
             onSuccess: () => {
                 form.reset();
                 handleCloseModal();

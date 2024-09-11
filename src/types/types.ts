@@ -138,12 +138,13 @@ export type TTaskCardProps = {
     description: string;
     createdAt: string;
     index: number;
+    image?: boolean;
 }
 
 export type TColumn = {
-    id: string;
+    columnOrder: string;
     title: string;
-    taskIds: string[];
+    tasks: ITask[];
 }
 
 export type TInitialDataDashboard = {
@@ -164,3 +165,5 @@ export type TTaskData = {
     status: number;
     idProject: number;
 }
+
+export type TToast = 'info' | 'warning' | 'success' | 'error';

@@ -1,19 +1,30 @@
 import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, Grid, IconButton, Typography } from '@mui/material';
 import { Draggable } from '@hello-pangea/dnd';
-import { DragIndicator, Favorite, Share } from '@mui/icons-material';
+import { DragIndicator, Share } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 
-import { TTaskCardProps } from '../../types';
 import { formatDateDistance } from '../../helpers';
+import { TTaskCardProps } from '../../types';
+import { useLocation } from 'react-router-dom';
+import { config } from '../../config';
 
-export const TaskCard = ({ id, index, title, description, createdAt }: TTaskCardProps) => {
+export const TaskCard = ({ id, index, title, description, createdAt, image }: TTaskCardProps) => {
+    const location = useLocation();
     
     const handleOnClick = () => {
         console.log('clicking')
     }
     
     const handleShare = () => {
-        toast.success('Copiado en el portapapeles');
+        const path = `${ config.host }${ location.pathname }`;
+        
+        navigator.clipboard.writeText(path).then(() => {
+            toast.success('Copiado en portapapeles');
+        }).catch(error => {
+            console.log(error);
+            toast.error('Lo sentimos, por favor intente más tarde')
+        });
+
     }
 
     return (
@@ -40,22 +51,25 @@ export const TaskCard = ({ id, index, title, description, createdAt }: TTaskCard
                                 subheader={ formatDateDistance( createdAt ) }
                             >
                             </CardHeader>
-                            <CardMedia 
-                                component='img'
-                                height='194'
-                                image='https://i.blogs.es/2c6d44/computer-keyboard-gaming-keyboard-keyboard-keycaps-618396/840_560.jpg'
-                                alt='task attachment'
-                            />
+                            {
+                                image && <CardMedia 
+                                    component='img'
+                                    height='100'
+                                    image='https://i.blogs.es/2c6d44/computer-keyboard-gaming-keyboard-keyboard-keycaps-618396/840_560.jpg'
+                                    alt='task attachment'
+                                />
+
+                            }
                             <CardContent>
                                 <Typography variant='body2' color='text.secondary'>
                                     { description }
                                 </Typography>
                             </CardContent>
-                            <CardActions disableSpacing>
-                                <IconButton aria-label='add to favorites'>
+                            <CardActions >
+                                {/* <IconButton aria-label='add to favorites'>
                                     <Favorite />
-                                </IconButton>
-                                <IconButton aria-label='share' onClick={ handleShare }>
+                                </IconButton> */}
+                                <IconButton aria-label='share' onClick={ handleShare } size='small' >
                                     <Share />
                                 </IconButton>
                             </CardActions>

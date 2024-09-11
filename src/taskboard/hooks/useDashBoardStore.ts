@@ -1,14 +1,18 @@
 import { getColumnTitle, getTasksIds } from '../../helpers';
-import { useAppDispatch, useAppSelector } from '../../hooks'
 import { IGetTasksResponse } from '../../interfaces';
-import { RootState } from '../../store';
 import { onChange, onChangeCompleted, setBacklogColumn, setColumnIdToCreateTask, setColumns, setDoneColumn, setProgressColumn, setQAColumn, setToDoColumn } from '../../store/taskboard';
+import { RootState } from '../../store';
 import { TColumn } from '../../types';
+import { useAppDispatch, useAppSelector } from '../../hooks'
+import { useSetDashboardColumn } from './useSetDashboardColumn';
+import { useSetNotify } from './useSetNotify';
 
 //TODO: ya se tienen cargadas las columnas de manera individual, ver la manera de setear al column del state, tal vez usando useEfect cuando todas las columnas dejen de ser null;
 
 export const useDashboardStore = () => {
-    const { tasks, columns, columnsOrder, status, backlogColumn, toDoColumn, progressColumn, QAColumn, doneColumn, columnIdToCreateTask } = useAppSelector(( state: RootState ) => state.dashboard )
+    const { tasks, columns, columnsOrder, status, backlogColumn, toDoColumn, progressColumn, QAColumn, doneColumn, columnIdToCreateTask } = useAppSelector(( state: RootState ) => state.dashboard );
+    const { setColumn } = useSetDashboardColumn();
+    const { setNotify } = useSetNotify();
     const dispatch = useAppDispatch();
 
     //* método para llamar a servicios y obtener la lista de tareas
@@ -23,8 +27,14 @@ export const useDashboardStore = () => {
         console.log('startChangeTaskStatus');
     }
 
-    const startSetColumns = ( newColumns: TColumn[] ) => {
-        dispatch( setColumns( newColumns ) );
+    //TODO: hacer la llamada a la API en este punto, si la acción falla, se debe revertir dentro de un try-catch
+    const startSetColumns = ( column: TColumn ) => {
+        
+        try {
+            setColumn( column );
+        } catch (error) {
+            setNotify( 'error', 'Lo sentimos, por favor intenta más tarde' );
+        }
     }
 
     const startAddColumn = ( data: IGetTasksResponse ) => {
@@ -49,30 +59,28 @@ export const useDashboardStore = () => {
         const idValue = data.id.toString();
 
         const { tasks, id } = data;
-
-        const tasksIds = getTasksIds( tasks );
         const columnTitle = getColumnTitle( id );
         const columnOrder = data.id
         
         switch ( idValue ) {
             case '1':
-                dispatch( setBacklogColumn({ tasksIds, title: columnTitle, id: columnOrder }) )
+                dispatch( setBacklogColumn({ tasks, columnTitle, columnOrder }) )
                 break;
         
             case '2':
-                dispatch( setToDoColumn({ tasksIds, columnTitle, columnOrder }) )
+                dispatch( setToDoColumn({ tasks, columnTitle, columnOrder }) )
                 break;
 
             case '3':
-                dispatch( setProgressColumn({ tasksIds, columnTitle, columnOrder }) )
+                dispatch( setProgressColumn({ tasks, columnTitle, columnOrder }) )
                 break;
 
             case '4':
-                dispatch( setQAColumn({ tasksIds, columnTitle, columnOrder }) )
+                dispatch( setQAColumn({ tasks, columnTitle, columnOrder }) )
                 break;
 
             case '5':
-                dispatch( setDoneColumn({ tasksIds: [], columnTitle, columnOrder }) )
+                dispatch( setDoneColumn({ tasks, columnTitle, columnOrder }) )
                 break;
 
             default:

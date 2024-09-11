@@ -2,7 +2,7 @@ import { Box, Grid } from '@mui/material';
 import { DragDropContext } from '@hello-pangea/dnd';
 
 import { CreateTaskForm, DashboardColumn } from '../components';
-import { useDragAndDrop, useTasks } from '../hooks';
+import { useDashboardStore, useDragAndDrop, useTasks } from '../hooks';
 import { queryOptions } from '../../helpers';
 import { ModalLayout } from '../layout';
 import { useUiStore } from '../../hooks';
@@ -11,6 +11,7 @@ export const DashboardView = () => {
     const { onDragEnd, onDragStart } = useDragAndDrop();
     const { dataBacklog, dataDone, dataProgress, dataQA, dataTodo } = useTasks( queryOptions );
     const { isOpenedCreateTaskModal, startHideCreateTaskModal } = useUiStore();
+    const { backlogColumn, toDoColumn, progressColumn, QAColumn, doneColumn } = useDashboardStore();
 
     return (
         <>
@@ -21,23 +22,23 @@ export const DashboardView = () => {
                         onDragStart={ onDragStart }
                     >
                         {
-                            dataBacklog && (<DashboardColumn key={ dataBacklog.id } columnId={ dataBacklog.id } tasks={ dataBacklog.tasks } title='Backlog' count={ dataBacklog.count } />)
+                            dataBacklog && backlogColumn && (<DashboardColumn key={ dataBacklog.id } columnId={ dataBacklog.id } tasks={ backlogColumn.tasks } title='Backlog' count={ dataBacklog.count } />)
                             
                         }
                         {
-                            dataTodo && (<DashboardColumn key={ dataTodo.id } columnId={ dataTodo.id } tasks={ dataTodo.tasks } title='To Do' count={ dataTodo.count } />)
+                            dataTodo && toDoColumn && (<DashboardColumn key={ dataTodo.id } columnId={ dataTodo.id } tasks={ toDoColumn.tasks } title='To Do' count={ dataTodo.count } />)
 
                         }
                         {
-                            dataProgress && (<DashboardColumn key={ dataProgress.id } columnId={ dataProgress.id } tasks={ dataProgress.tasks } title='Progress' count={ dataProgress.count } />)
+                            dataProgress && progressColumn && (<DashboardColumn key={ dataProgress.id } columnId={ dataProgress.id } tasks={ progressColumn.tasks } title='Progress' count={ dataProgress.count } />)
                             
                         }
                         {
-                            dataQA && (<DashboardColumn key={ dataQA.id } columnId={ dataQA.id } tasks={ dataQA.tasks } title='QA' count={ dataQA.count } />)
+                            dataQA && QAColumn && (<DashboardColumn key={ dataQA.id } columnId={ dataQA.id } tasks={ QAColumn.tasks } title='QA' count={ dataQA.count } />)
 
                         }
                         {
-                            dataDone && (<DashboardColumn key={ dataDone.id } columnId={ dataDone.id } tasks={ dataDone.tasks } title='Done' count={ dataDone.count } />)
+                            dataDone && doneColumn && (<DashboardColumn key={ dataDone.id } columnId={ dataDone.id } tasks={ doneColumn.tasks } title='Done' count={ dataDone.count } />)
 
                         }
                     </DragDropContext>

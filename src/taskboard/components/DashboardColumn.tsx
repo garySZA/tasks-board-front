@@ -39,6 +39,7 @@ export const DashboardColumn = ({ columnId, title, count, tasks }: TDashboardCol
                             {
                                 ( provided, snapshot ) => (
                                     <div
+                                        style={{ minHeight: '10px' }}
                                         ref={ provided.innerRef }
                                         { ...provided.droppableProps }
                                         data-dropping={ snapshot.isDraggingOver }
