@@ -1,6 +1,5 @@
 import { IProject, ITaskLike, User } from '../interfaces';
-import { Team, TInitialDataDashboard } from '../types';
-import { filterTaskIds } from './filterTasks';
+import { Team } from '../types';
 
 export const teams: Team[] = [
     {
@@ -10,7 +9,7 @@ export const teams: Team[] = [
         status: 1,
         creatorId: 2,
         createdAt: '2024-06-11T21:06:01.000Z',
-        updatedAt: '2024-06-11T21:06:01.000Z'
+        updatedAt: '2024-06-11T21:06:01.000Z',
     },
     {
         idTeam: 2,
@@ -19,7 +18,7 @@ export const teams: Team[] = [
         status: 1,
         creatorId: 2,
         createdAt: '2024-06-12T02:22:33.000Z',
-        updatedAt: '2024-06-12T02:22:33.000Z'
+        updatedAt: '2024-06-12T02:22:33.000Z',
     },
     {
         idTeam: 3,
@@ -28,7 +27,7 @@ export const teams: Team[] = [
         status: 1,
         creatorId: 2,
         createdAt: '2024-06-11T22:36:00.000Z',
-        updatedAt: '2024-06-11T22:36:00.000Z'
+        updatedAt: '2024-06-11T22:36:00.000Z',
     },
     {
         idTeam: 4,
@@ -37,7 +36,7 @@ export const teams: Team[] = [
         status: 1,
         creatorId: 2,
         createdAt: '2024-06-11T22:42:07.000Z',
-        updatedAt: '2024-06-11T22:42:07.000Z'
+        updatedAt: '2024-06-11T22:42:07.000Z',
     },
     {
         idTeam: 5,
@@ -46,7 +45,7 @@ export const teams: Team[] = [
         status: 1,
         creatorId: 2,
         createdAt: '2024-06-11T22:48:45.000Z',
-        updatedAt: '2024-06-11T22:48:45.000Z'
+        updatedAt: '2024-06-11T22:48:45.000Z',
     },
     {
         idTeam: 6,
@@ -55,7 +54,7 @@ export const teams: Team[] = [
         status: 1,
         creatorId: 2,
         createdAt: '2024-06-11T22:51:09.000Z',
-        updatedAt: '2024-06-11T22:51:09.000Z'
+        updatedAt: '2024-06-11T22:51:09.000Z',
     },
     {
         idTeam: 7,
@@ -64,7 +63,7 @@ export const teams: Team[] = [
         status: 1,
         creatorId: 2,
         createdAt: '2024-06-11T23:06:14.000Z',
-        updatedAt: '2024-06-11T23:06:14.000Z'
+        updatedAt: '2024-06-11T23:06:14.000Z',
     },
     {
         idTeam: 8,
@@ -73,7 +72,7 @@ export const teams: Team[] = [
         status: 1,
         creatorId: 2,
         createdAt: '2024-06-11T23:17:32.000Z',
-        updatedAt: '2024-06-11T23:17:32.000Z'
+        updatedAt: '2024-06-11T23:17:32.000Z',
     },
     {
         idTeam: 9,
@@ -82,40 +81,40 @@ export const teams: Team[] = [
         status: 1,
         creatorId: 2,
         createdAt: '2024-06-11T23:40:16.000Z',
-        updatedAt: '2024-06-11T23:40:16.000Z'
-    }
+        updatedAt: '2024-06-11T23:40:16.000Z',
+    },
 ];
 
 export const memberUsers: User[] = [
     {
         name: 'Carlos',
-        idUser: 1
+        idUser: 1,
     },
     {
         name: 'Jose',
-        idUser: 2
+        idUser: 2,
     },
     {
         name: 'Gary',
-        idUser: 3
+        idUser: 3,
     },
     {
         name: 'Selena',
-        idUser: 4
+        idUser: 4,
     },
     {
         name: 'Andres',
-        idUser: 5
+        idUser: 5,
     },
     {
         name: 'Gustavo',
-        idUser: 6
+        idUser: 6,
     },
     {
         name: 'Tatiana',
-        idUser: 7
+        idUser: 7,
     },
-]
+];
 
 export const projects: IProject[] = [
     {
@@ -150,7 +149,7 @@ export const projects: IProject[] = [
         createdAt: new Date(),
         cardCount: 1,
     },
-]
+];
 
 export const tasks: ITaskLike[] = [
     {
@@ -209,36 +208,36 @@ export const tasks: ITaskLike[] = [
         status: 2,
         createdAt: '2024-06-12T00:35:00.000Z',
     },
-]
+];
 
-export const initialDataDashboard: TInitialDataDashboard = {
-    tasks: tasks,
-    columns: [
-        {
-            id: '1',
-            title: 'Backlog',
-            taskIds: filterTaskIds( tasks, 0 ),
-        },
-        {
-            id: '2',
-            title: 'To Do',
-            taskIds: filterTaskIds( tasks, 1 ),
-        },
-        {
-            id: '3',
-            title: 'Progress',
-            taskIds: filterTaskIds( tasks, 2 ),
-        },
-        {
-            id: '4',
-            title: 'QA',
-            taskIds: filterTaskIds( tasks, 3 ),
-        },
-        {
-            id: '5',
-            title: 'Done',
-            taskIds: filterTaskIds( tasks, 4 ),
-        },
-    ],
-    columnOrder: [ '1', '2', '3', '4', '5' ]
-}
+// export const initialDataDashboard: TInitialDataDashboard = {
+//     tasks: tasks,
+//     columns: [
+//         {
+//             id: '1',
+//             title: 'Backlog',
+//             taskIds: filterTaskIds(tasks, 0),
+//         },
+//         {
+//             id: '2',
+//             title: 'To Do',
+//             taskIds: filterTaskIds(tasks, 1),
+//         },
+//         {
+//             id: '3',
+//             title: 'Progress',
+//             taskIds: filterTaskIds(tasks, 2),
+//         },
+//         {
+//             id: '4',
+//             title: 'QA',
+//             taskIds: filterTaskIds(tasks, 3),
+//         },
+//         {
+//             id: '5',
+//             title: 'Done',
+//             taskIds: filterTaskIds(tasks, 4),
+//         },
+//     ],
+//     columnOrder: ['1', '2', '3', '4', '5'],
+// };

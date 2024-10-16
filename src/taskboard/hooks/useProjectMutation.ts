@@ -10,29 +10,30 @@ export const useProjectMutation = () => {
 
     const mutation = useMutation({
         mutationFn: ProjectActions.createProject,
-        onSuccess: ( data ) => {
+        onSuccess: (data) => {
             toast.success('Proyecto creado');
 
             //* Invalidando una Query
             queryClient.invalidateQueries({
-                queryKey: ['team', data.newProject.idTeam, 'projects']
+                queryKey: ['team', data.newProject.idTeam, 'projects'],
             });
         },
-        onError: ( error ) => {
-            if( error instanceof AxiosError ){
-                if( error.response ){
-                    const content = error.response.data as ICreateProjectErrorResponse;
-                    
+        onError: (error) => {
+            if (error instanceof AxiosError) {
+                if (error.response) {
+                    const content = error.response
+                        .data as ICreateProjectErrorResponse;
+
                     toast.error(content.msg);
                 }
             }
-        }
+        },
     });
-    
+
     return {
         //* Props
 
         //* Methods
-        mutation
-    }
-}
+        mutation,
+    };
+};

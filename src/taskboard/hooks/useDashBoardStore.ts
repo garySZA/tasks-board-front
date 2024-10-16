@@ -1,96 +1,132 @@
 import { getColumnTitle, getTasksIds } from '../../helpers';
 import { IGetTasksResponse } from '../../interfaces';
-import { onChange, onChangeCompleted, setBacklogColumn, setColumnIdToCreateTask, setColumns, setDoneColumn, setProgressColumn, setQAColumn, setToDoColumn } from '../../store/taskboard';
+import {
+    onChange,
+    onChangeCompleted,
+    setBacklogColumn,
+    setColumnIdToCreateTask,
+    setColumns,
+    setDoneColumn,
+    setProgressColumn,
+    setQAColumn,
+    setToDoColumn,
+} from '../../store/taskboard';
 import { RootState } from '../../store';
 import { TColumn } from '../../types';
-import { useAppDispatch, useAppSelector } from '../../hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useSetDashboardColumn } from './useSetDashboardColumn';
 import { useSetNotify } from './useSetNotify';
-
-//TODO: ya se tienen cargadas las columnas de manera individual, ver la manera de setear al column del state, tal vez usando useEfect cuando todas las columnas dejen de ser null;
+import { TaskActions } from '../../services';
+import { useParams } from 'react-router-dom';
+import { useAuthStore } from '../../auth/hooks';
 
 export const useDashboardStore = () => {
-    const { tasks, columns, columnsOrder, status, backlogColumn, toDoColumn, progressColumn, QAColumn, doneColumn, columnIdToCreateTask } = useAppSelector(( state: RootState ) => state.dashboard );
+    const {
+        tasks,
+        columns,
+        columnsOrder,
+        status,
+        backlogColumn,
+        toDoColumn,
+        progressColumn,
+        QAColumn,
+        doneColumn,
+        columnIdToCreateTask,
+    } = useAppSelector((state: RootState) => state.dashboard);
     const { setColumn } = useSetDashboardColumn();
     const { setNotify } = useSetNotify();
+    const { idProject } = useParams();
+    const { user } = useAuthStore();
     const dispatch = useAppDispatch();
 
-    //* método para llamar a servicios y obtener la lista de tareas
-    const startGetTasks = () => {
-        console.log('startGetTasks');
+    const startChangeTaskStatus = async (
+        startColumn: TColumn,
+        finishColumn: TColumn | null = null,
+        idTask: string,
+        taskIndex: number
+    ) => {
+        const columnId = finishColumn?.columnOrder || startColumn.columnOrder;
 
-        //* Método para filtrar las tareas es temporal, la data debe venir filtrada desde backend.
-        
-    }
-
-    const startChangeTaskStatus = () => {
-        console.log('startChangeTaskStatus');
-    }
-
-    //TODO: hacer la llamada a la API en este punto, si la acción falla, se debe revertir dentro de un try-catch
-    const startSetColumns = ( column: TColumn ) => {
-        
         try {
-            setColumn( column );
+            startSetColumns(startColumn, finishColumn);
+            await TaskActions.changeTaskStatus(
+                +columnId,
+                +idTask,
+                +idProject!,
+                taskIndex,
+                user!.uid
+            );
         } catch (error) {
-            setNotify( 'error', 'Lo sentimos, por favor intenta más tarde' );
+            setNotify('error', 'Lo sentimos, por favor intenta más tarde');
         }
-    }
+    };
 
-    const startAddColumn = ( data: IGetTasksResponse ) => {
-        dispatch( onChange() );
-        
+    const startSetColumns = (
+        startColumn: TColumn,
+        finishColumn: TColumn | null = null
+    ) => {
+        try {
+            setColumn(startColumn);
+            finishColumn && setColumn(finishColumn);
+        } catch (error) {
+            setNotify('error', 'Lo sentimos, por favor intenta más tarde');
+        }
+    };
+
+    const startAddColumn = (data: IGetTasksResponse) => {
+        dispatch(onChange());
+
         const { tasks, id } = data;
 
-        const tasksIds = getTasksIds( tasks );
-        const columnTitle = getColumnTitle( id );
-        const columnOrder = data.id
-        
-        const newColumn = { tasksIds, columnTitle, columnOrder }
+        const tasksIds = getTasksIds(tasks);
+        const columnTitle = getColumnTitle(id);
+        const columnOrder = data.id;
 
-        console.log(columns);
+        const newColumn = { tasksIds, columnTitle, columnOrder };
 
-        const newColumns = [...columns, newColumn ];
-        dispatch( setColumns( newColumns ) );
-        dispatch( onChangeCompleted() );
-    }
+        const newColumns = [...columns, newColumn];
+        dispatch(setColumns(newColumns));
+        dispatch(onChangeCompleted());
+    };
 
-    const startSetColumn = ( data: IGetTasksResponse ) => {
+    const startSetColumn = (data: IGetTasksResponse) => {
         const idValue = data.id.toString();
 
         const { tasks, id } = data;
-        const columnTitle = getColumnTitle( id );
-        const columnOrder = data.id
-        
-        switch ( idValue ) {
+        const columnTitle = getColumnTitle(id);
+        const columnOrder = data.id;
+
+        switch (idValue) {
             case '1':
-                dispatch( setBacklogColumn({ tasks, columnTitle, columnOrder }) )
+                dispatch(setBacklogColumn({ tasks, columnTitle, columnOrder }));
                 break;
-        
+
             case '2':
-                dispatch( setToDoColumn({ tasks, columnTitle, columnOrder }) )
+                dispatch(setToDoColumn({ tasks, columnTitle, columnOrder }));
                 break;
 
             case '3':
-                dispatch( setProgressColumn({ tasks, columnTitle, columnOrder }) )
+                dispatch(
+                    setProgressColumn({ tasks, columnTitle, columnOrder })
+                );
                 break;
 
             case '4':
-                dispatch( setQAColumn({ tasks, columnTitle, columnOrder }) )
+                dispatch(setQAColumn({ tasks, columnTitle, columnOrder }));
                 break;
 
             case '5':
-                dispatch( setDoneColumn({ tasks, columnTitle, columnOrder }) )
+                dispatch(setDoneColumn({ tasks, columnTitle, columnOrder }));
                 break;
 
             default:
                 break;
         }
-    }
+    };
 
-    const startSetColumnIdToCreateTask = ( id: number ) => {
-        dispatch( setColumnIdToCreateTask(id) );
-    }
+    const startSetColumnIdToCreateTask = (id: number) => {
+        dispatch(setColumnIdToCreateTask(id));
+    };
 
     return {
         //* Props
@@ -109,9 +145,8 @@ export const useDashboardStore = () => {
         //* Methods
         startAddColumn,
         startChangeTaskStatus,
-        startGetTasks,
         startSetColumn,
         startSetColumnIdToCreateTask,
         startSetColumns,
-    }
-}
+    };
+};

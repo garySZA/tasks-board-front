@@ -1,0 +1,45 @@
+services:
+
+  db:
+    container_name: mysql_database
+    image: mysql:oracle
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - 6006:3306
+    env_file: ".env.production"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${USER_DB_PASSWORD}
+    restart: always
+
+  backend:
+    depends_on:
+      - db
+    image: garythos07/taskboard-app-backend:1.0.0
+    container_name: taskboard-app-backend
+    env_file: ".env.production"
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      PORT: ${PORT}
+      BASE_URL: ${BASE_URL}
+      USER_DB: ${USER_DB}
+      USER_DB_PASSWORD: ${USER_DB_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      SECRET_JWT_SEED: ${SECRET_JWT_SEED}
+      EXPIRES_IN: ${EXPIRES_IN}
+    restart: always
+
+  frontend:
+    depends_on:
+      - backend
+      - db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: taskboard-app-frontend
+    ports:
+      - 5173:80
+    restart: always

@@ -1,5 +1,6 @@
 export * from './useDashBoardStore';
 export * from './useDragAndDrop';
+export * from './useInvalidateQuery';
 export * from './usePrefetch';
 export * from './useProjectMutation';
 export * from './useSetDashboardColumn';
